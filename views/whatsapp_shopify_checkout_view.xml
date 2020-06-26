@@ -1,0 +1,40 @@
+<odoo>
+  <data>
+       <!-- ONBOARDING PANEL-->
+    <template id="whatsapp_abandoned_cart_onboarding_panel" name="whatsapp.abandoned.cart.onboarding.panel">
+                   <t t-call="whatsapp.home" name="consolidation_step"/>
+
+    </template>
+    <record id="whatsapp_shopify_checkout_view_tree" model="ir.ui.view">
+        <field name="model">whatsapp.shopify.checkout</field>
+        <field name="arch" type="xml">
+            <tree string="Abandoned cart checkout" banner_route="/whatsapp/abandoned_cart_onboarding_panel">
+                <field name="checkout_id" string="Checkout ID"/>
+                <field name="customer_name" string="Customer Name"/>
+                <field name="date" string="Date"/>
+                <field name="amount" string="Total"/>
+                <field name="customer_phone" string="Phone" widget="whatsapp_sendmessage_abandoned_cart"/>
+            </tree>
+        </field>
+    </record>
+    <record id="abandoned_view_search" model="ir.ui.view">
+        <field name="name">Abandoned Cart Search View</field>
+        <field name="model">whatsapp.shopify.checkout</field>
+        <field name="arch" type="xml">
+            <search string="Abandoned cart">
+                <field name="checkout_id" string="Document"/>
+                <field name="customer_name"/>
+                <field name="customer_phone"/>
+
+                <searchpanel>
+                    <field name="recover_status"/>
+                    <field name="send_mess1_status" />
+                    <field name="send_mess2_status" string="Semd message 2" />
+                </searchpanel>
+            </search>
+        </field>
+    </record>
+
+
+  </data>
+</odoo>

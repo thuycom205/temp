@@ -1,0 +1,56 @@
+<odoo>
+  <data>
+    <record model="ir.ui.view" id="config_manual_order_crm_form">
+        <field name="name">config.manual.order.crm.form</field>
+        <field name="model">config.manual.order.crm</field>
+        <field name="arch" type="xml">
+            <form string="Config_shopify_form">
+            <sheet>
+                <notebook>
+                    <page string="Cart">
+                        <button name="message_template" string="Message Template" type="object"/>
+                        <notbook>
+                            <page string="All(0)">
+                                <field name="manual_order_crm_line">
+                                    <tree>
+                                        <field name="checkout_user"/>
+                                        <field name="date" />
+                                        <field name="amount"/>
+                                        <field name="status"/>
+                                        <button string="Send message 1"/>
+                                        <button string="Send message 2"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notbook>
+                    </page>
+                    <page string="Setting"></page>
+                </notebook>
+            </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="config_manual_order_crm_action">
+      <field name="name">config.manual.order.crm.action</field>
+      <field name="res_model">config.manual.order.crm</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+      <record id="config_manual_order_crm_tree_view" model="ir.ui.view">
+        <field name="model">config.manual.order.crm</field>
+        <field name="arch" type="xml">
+            <tree string="Config">
+
+            </tree>
+        </field>
+    </record>
+
+
+    <menuitem name="shopify app" id="menu_shopify_app"  web_icon="whatsapp,static/description/icon.png"
+                  sequence="45"/>
+
+    <menuitem name="Order CRM" id="menu_config_manual_message_order_crm" parent="menu_manual_message_abandoned_cart" action="config_manual_order_crm_action"/>
+
+  </data>
+</odoo>

@@ -1,0 +1,109 @@
+<odoo>
+  <data>
+    <record model="ir.ui.view" id="view_rental_product_form">
+        <field name="name">rental.product.form</field>
+        <field name="model">rental.shopify_product</field>
+        <field name="arch" type="xml">
+            <form string="Rental product setting">
+            <sheet>
+                <button class="oe_stat_button" name="action_move_line_select"
+                                string="Journal Items" type="object" icon="fa-bars"/>
+                <button class="oe_stat_button" name="action_create_product"
+                                string="Create Product" type="object" icon="fa-bars"/>
+
+                <group col="4">
+                    <field name="product_id"/>
+                    <field name="shopify_product_title"/>
+                     <field name="is_Edit"  />
+                      <field name="edit_id"  invisible="1"/>
+                     <field name="rental_pricing_ids" nolabel="1">
+                          <tree string="Pricing" editable="bottom">
+
+                            <field name="duration"/>
+                            <field name="unit"/>
+                            <field name="price"/>
+                              
+                          </tree>
+                        </field>
+                </group>
+                 <footer>
+            <button name="next_step" string="Save" type="object" class="btn-primary"/>
+            <button string="Cancel" class="btn-secondary" special="cancel"/>
+          </footer>
+
+            </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="open_rental_product_form" model="ir.actions.act_window">
+        <field name="name">Rental product setting</field>
+        <field name="res_model">rental.shopify_product</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_rental_product_form"/>
+    </record>
+
+    <record id="product_template_view_tree" model="ir.ui.view">
+        <field name="name">product.template.tree</field>
+        <field name="model">product.template</field>
+        <field name="arch" type="xml">
+                <tree string="Products" js_class="product_rental_tree">
+                    <field name="website_id" invisible="1"/>
+                </tree>
+        </field>
+<!--        <field name="inherit_id" ref="sale_renting.product_template_rental_tree_view"/>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <xpath expr="//tree" position="attributes">-->
+<!--                <attribute name="js_class">product_rental_tree</attribute>-->
+<!--            </xpath>-->
+<!--            <xpath expr="//tree" position= "inside">-->
+<!--                <field name="website_id" invisible="1"/>-->
+<!--            </xpath>-->
+<!--        </field>-->
+    </record>
+    <!-- explicit list view definition -->
+    <record model="ir.ui.view" id="whatsapp.list">
+      <field name="name">shopify_app list</field>
+      <field name="model">shopify_app.shopify_app</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="value"/>
+          <field name="value2"/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="whatsapp.action_window">
+      <field name="name">shopify_app window</field>
+      <field name="res_model">shopify_app.shopify_app</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+<!--    <record model="ir.actions.server" id="shopify_app.action_server">-->
+<!--      <field name="name">shopify_app server</field>-->
+<!--      <field name="model_id" ref="model_shopify_app_shopify_app"/>-->
+<!--      <field name="state">code</field>-->
+<!--      <field name="code">-->
+<!--        action = {-->
+<!--          "type": "ir.actions.act_window",-->
+<!--          "view_mode": "tree,form",-->
+<!--          "res_model": model._name,-->
+<!--        }-->
+<!--      </field>-->
+<!--    </record>-->
+
+    <menuitem name="shopify app" id="menu_shopify_app"  web_icon="whatsapp,static/description/icon.png"
+                  sequence="45"/>
+    <menuitem name="Configuration" id="menu_config_shopify_app" parent="menu_shopify_app"/>
+    <menuitem name="Automated Message" id="menu_automated_message" parent="menu_config_shopify_app"/>
+    <menuitem name="Manual Message" id="menu_manual_message_abandoned_cart" parent="menu_config_shopify_app"/>
+    <menuitem name="Basic Apps" id="menu_basic_app" parent="menu_config_shopify_app"/>
+    <menuitem name="Menu 1" id="shopify_app_menu_1" parent="menu_shopify_app"/>
+    <menuitem name="Menu 2" id="shopify_app_menu_2" parent="menu_shopify_app"/>
+    <menuitem name="List" id="shopify_app_menu_1_list" parent="menu_shopify_app"
+              action="whatsapp.action_window"/>
+<!--    <menuitem name="Server to list" id="shopify_app" parent="shopify_app.menu_2"-->
+<!--              action="shopify_app.action_server"/>-->
+  </data>
+</odoo>

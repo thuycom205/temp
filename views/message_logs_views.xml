@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="shopify_message_logs_form">
+            <field name="name">message.logs.form</field>
+            <field name="model">message.logs</field>
+            <field name="arch" type="xml">
+                <form string="message_logs_form">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="checkout" string="Checkout"/>
+                                <field name="date" string="Date"/>
+                                <field name="partner_name" string="Name"/>
+                            </group>
+                            <group>
+                                <field name="amount" string="Amount"/>
+                                <field name="status" string="Status"/>
+
+                            </group>
+                        </group>
+                        <group>
+                             <field name="message" string="Message"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+    </record>
+
+    <record id="message_logs_view_tree" model="ir.ui.view">
+        <field name="model">message.logs</field>
+        <field name="arch" type="xml">
+            <tree string="Message Logs">
+                <field name="checkout" string="Checkout"/>
+                <field name="date" string="Date"/>
+                <field name="partner_name" string="Name"/>
+                <field name="amount" string="Amount"/>
+                <field name="status" string="Status"/>
+                <field name="message" string="Message"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window"  id="shopify_message_log_action">
+          <field name="name">message.logs</field>
+          <field name="res_model">message.logs</field>
+          <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem name="Message Logs" id="shopify_message_log" parent="menu_shopify_app" action="shopify_message_log_action"/>
+
+    </data>
+</odoo>
