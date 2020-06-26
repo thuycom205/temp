@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="config_button_text_design_form">
+            <field name="name">config.button.text.design.form</field>
+            <field name="model">config.button.text.design</field>
+            <field name="arch" type="xml">
+                <form string="message_form">
+                    <sheet>
+                        <group>
+                            <field name="color_button_text" string="Background colour style" widget="radio"/>
+                        </group>
+
+                        <group>
+                            <group>
+                                <field name="background_colour_1" string='Background colour 1' widget="color"/>
+                            </group>
+                            <group>
+                                <field name="background_colour_2" string='Background colour 2' widget="color" attrs="{'invisible': [('color_button_text','=','single')]}"/>
+                            </group>
+                        </group>
+
+                        <group>
+                            <field name="icon_colour" string='Icon Colour' widget="color"/>
+                        </group>
+
+                        <group>
+                            <field name="button_color" string='Button text color' widget="color"/>
+                        </group>
+
+                        <group>
+                            <field name="chat_button_text" string="Chat Button Text"/>
+                        </group>
+
+                        <group>
+                            <field name="whatsapp_message_body" string="WhatsApp Message Body" />
+                        </group>
+                        <group>
+                            <field name="include_url" string="Include URL"/>
+                        </group>
+
+                    </sheet>
+                    <footer>
+                            <button name="confirm" string="Xác nhận" type="object" class="btn-primary"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    <record model="ir.actions.act_window"  id="config_button_text_design_action">
+          <field name="name">config.button.text.design.action</field>
+          <field name="res_model">config.button.text.design</field>
+          <field name="view_mode">form</field>
+    </record>
+
+    </data>
+</odoo>

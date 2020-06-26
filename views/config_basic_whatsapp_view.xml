@@ -5,121 +5,121 @@
         <field name="model">config.basic.whats.app</field>
         <field name="arch" type="xml">
             <form string="Config_shopify_form">
-            <sheet>
-                <notebook>
-                    <page string="Setting">
-                         <group>
-                            <h4><b>Basic Setting</b></h4>
-                           <field name="config_phone_number" readonly="0" string="Basic">
-                                <tree>
-                                    <field name="phone_number"/>
-                                    <field name="agent_name"/>
-                                    <field name="status"/>
-                                    <button string="Edit" name="action_open_view" type="object" />
-                                </tree>
-                           </field>
-                        </group>
-                        <group>
-                            <field name="select_colour"  widget="radio"/>
-                        </group>
-                        <group>
-                            <group></group>
-                            <group><button string="Change stype" type="object" class="btn btn-info button_style_template" name="action_open_cart"/></group>
-                        </group>
+<!--            <sheet>-->
+<!--                <notebook>-->
+<!--                    <page string="Setting">-->
+<!--                         <group>-->
+<!--                            <h4><b>Basic Setting</b></h4>-->
+<!--                           <field name="config_phone_number" readonly="0" string="Basic">-->
+<!--                                <tree>-->
+<!--                                    <field name="phone_number"/>-->
+<!--                                    <field name="agent_name"/>-->
+<!--                                    <field name="status"/>-->
+<!--                                    <button string="Edit" name="action_open_view" type="object" />-->
+<!--                                </tree>-->
+<!--                           </field>-->
+<!--                        </group>-->
+<!--                        <group>-->
+<!--                            <field name="select_colour"  widget="radio"/>-->
+<!--                        </group>-->
+<!--                        <group>-->
+<!--                            <group></group>-->
+<!--                            <group><button string="Change stype" type="object" class="btn btn-info button_style_template" name="action_open_cart"/></group>-->
+<!--                        </group>-->
 
-                        <group>
-                            <group>
-                                <field name="background_colour_1" widget="color" string="Background colour 1"/>
-                            </group>
-                            <group>
-                                <field name="background_colour_2" widget="color" string="Background colour 2" attrs="{'invisible': [('select_colour','!=','gradient')]}"/>
-                            </group>
-                        </group>
+<!--                        <group>-->
+<!--                            <group>-->
+<!--                                <field name="background_colour_1" widget="color" string="Background colour 1"/>-->
+<!--                            </group>-->
+<!--                            <group>-->
+<!--                                <field name="background_colour_2" widget="color" string="Background colour 2" attrs="{'invisible': [('select_colour','!=','gradient')]}"/>-->
+<!--                            </group>-->
+<!--                        </group>-->
 
-                        <group>
-                            <group>
-                                <field name="icon_colour" widget="color" string="Icon colour"/>
-                            </group>
-                            <group>
-                                <field name="button_color" widget="color" string="Button text colour"/>
-                            </group>
-                        </group>
+<!--                        <group>-->
+<!--                            <group>-->
+<!--                                <field name="icon_colour" widget="color" string="Icon colour"/>-->
+<!--                            </group>-->
+<!--                            <group>-->
+<!--                                <field name="button_color" widget="color" string="Button text colour"/>-->
+<!--                            </group>-->
+<!--                        </group>-->
 
 
-                        <group>
-                            <field name="select_colour_widget"  widget="radio"/>
-                        </group>
+<!--                        <group>-->
+<!--                            <field name="select_colour_widget"  widget="radio"/>-->
+<!--                        </group>-->
 
-                        <group>
-                            <group>
-                                <field name="single_colour_widget" widget="color" string="Background colour 1"/>
-                            </group>
-                            <group>
-                                <field name="gradient_colours_widget" widget="color" string="Background colour 2" attrs="{'invisible': [('select_colour_widget','!=','gradient')]}"/>
-                            </group>
-                        </group>
+<!--                        <group>-->
+<!--                            <group>-->
+<!--                                <field name="single_colour_widget" widget="color" string="Background colour 1"/>-->
+<!--                            </group>-->
+<!--                            <group>-->
+<!--                                <field name="gradient_colours_widget" widget="color" string="Background colour 2" attrs="{'invisible': [('select_colour_widget','!=','gradient')]}"/>-->
+<!--                            </group>-->
+<!--                        </group>-->
 
-                        <group>
-                            <group>
-                                <field name="background_colour_1_widget" widget="color" string="Heading text colour"/>
-                            </group>
-                            <group>
-                                <field name="background_colour_2_widget" widget="color" string="Description text colour"/>
-                            </group>
-                        </group>
+<!--                        <group>-->
+<!--                            <group>-->
+<!--                                <field name="background_colour_1_widget" widget="color" string="Heading text colour"/>-->
+<!--                            </group>-->
+<!--                            <group>-->
+<!--                                <field name="background_colour_2_widget" widget="color" string="Description text colour"/>-->
+<!--                            </group>-->
+<!--                        </group>-->
 
-                        <group>
-                            <group>
-                                <field name="title_widget"  string="Title"/>
-                            </group>
-                            <group>
-                                <field name="help_text"  string="Help Text"/>
-                            </group>
-                        </group>
+<!--                        <group>-->
+<!--                            <group>-->
+<!--                                <field name="title_widget"  string="Title"/>-->
+<!--                            </group>-->
+<!--                            <group>-->
+<!--                                <field name="help_text"  string="Help Text"/>-->
+<!--                            </group>-->
+<!--                        </group>-->
 
-                        <group>
-                            <field name="randomise_order" string="Randomise order of chat agents"/>
-                        </group>
+<!--                        <group>-->
+<!--                            <field name="randomise_order" string="Randomise order of chat agents"/>-->
+<!--                        </group>-->
 
-                        <group>
-                            <field name="chat_button_display" widget="radio"/>
-                        </group>
+<!--                        <group>-->
+<!--                            <field name="chat_button_display" widget="radio"/>-->
+<!--                        </group>-->
 
-                        <group>
-                            <group>
-                                <field name="button_mobile_position" widget="radio"/>
-                            </group>
-                            <group>
-                                <field name="button_desktop_position" widget="radio"/>
-                            </group>
-                        </group>
+<!--                        <group>-->
+<!--                            <group>-->
+<!--                                <field name="button_mobile_position" widget="radio"/>-->
+<!--                            </group>-->
+<!--                            <group>-->
+<!--                                <field name="button_desktop_position" widget="radio"/>-->
+<!--                            </group>-->
+<!--                        </group>-->
 
-                         <group>
-                            <group>
-                                <field name="height_mobile" string="HEIGHT (Mobile)"/>
-                                <field name="edge_mobile" string="EDGE (Mobile)"/>
-                            </group>
-                            <group>
-                                <field name="height_desktop" string="HEIGHT (Desktop)"/>
-                                <field name="edge_desktop" string="EDGE (Desktop)"/>
-                            </group>
-                        </group>
-                    </page>
-                    <page string="Advanced Setting">
-                        <p>Google Analytics</p>
-                        <group>
-                            <field name="event_category" string="Event Category"/>
-                            <field name="event_lable" string="Event Label"/>
-                            <field name="event_action" string="Event Action"/>
-                        </group>
-                        <p>Facebook Pixel</p>
-                        <group>
-                            <field name="event_name" />
-                        </group>
-                    </page>
-                </notebook>
+<!--                         <group>-->
+<!--                            <group>-->
+<!--                                <field name="height_mobile" string="HEIGHT (Mobile)"/>-->
+<!--                                <field name="edge_mobile" string="EDGE (Mobile)"/>-->
+<!--                            </group>-->
+<!--                            <group>-->
+<!--                                <field name="height_desktop" string="HEIGHT (Desktop)"/>-->
+<!--                                <field name="edge_desktop" string="EDGE (Desktop)"/>-->
+<!--                            </group>-->
+<!--                        </group>-->
+<!--                    </page>-->
+<!--                    <page string="Advanced Setting">-->
+<!--                        <p>Google Analytics</p>-->
+<!--                        <group>-->
+<!--                            <field name="event_category" string="Event Category"/>-->
+<!--                            <field name="event_lable" string="Event Label"/>-->
+<!--                            <field name="event_action" string="Event Action"/>-->
+<!--                        </group>-->
+<!--                        <p>Facebook Pixel</p>-->
+<!--                        <group>-->
+<!--                            <field name="event_name" />-->
+<!--                        </group>-->
+<!--                    </page>-->
+<!--                </notebook>-->
 
-            </sheet>
+<!--            </sheet>-->
             </form>
         </field>
     </record>
@@ -133,7 +133,7 @@
 
 
     <menuitem name="shopify app" id="menu_shopify_app"  web_icon="whatsapp,static/description/icon.png"
-                  sequence="45"/>
+                  sequence="45" groups="whatsapp.group_manager_setting_whats_app"/>
 
     <menuitem name="Config Basic" id="menu_config_basic_whatsapp" parent="menu_basic_app" action="config_basic_whats_app_action"/>
 

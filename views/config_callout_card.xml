@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="config_callout_card_form">
+            <field name="name">config.callout.card.form</field>
+            <field name="model">config.callout.card</field>
+            <field name="arch" type="xml">
+                <form string="message_form">
+                    <sheet>
+                        <group>
+                            <field name="show_callout_button" string="Show callout card above chat button"/>
+                        </group>
+
+                        <group>
+                            <field name="callout_car_text" string='Callout Card Text'/>
+                        </group>
+
+                          <group>
+                            <field name="callout_card_delay" string='Callout card delay'/>
+                        </group>
+                    </sheet>
+                    <footer>
+                            <button name="confirm" string="Xác nhận" type="object" class="btn-primary"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    <record model="ir.actions.act_window"  id="config_callout_card_action">
+          <field name="name">config.callout.card.action</field>
+          <field name="res_model">config.callout.card</field>
+          <field name="view_mode">form</field>
+    </record>
+
+    </data>
+</odoo>

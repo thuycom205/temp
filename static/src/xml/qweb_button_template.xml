@@ -1,160 +1,1058 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates id="template" xml:space="preserve">
-         <div t-name="home">
+   <div t-name="ButtonTemplate">
+      <script>
+                       if(document.getElementById("color_1")){
+                           color_1 = document.getElementById("color_1").value
+                           if(document.getElementById("color_1")){
+                              button_chat_1 = document.getElementById("button_chat_1")
+                              button_chat_1.style.background=color_1
+
+                           }
+                        }
+
+                        if(document.getElementById('button_text_color')){
+                           color_text = document.getElementById('button_text_color').value
+                           text_button_color = document.getElementById("button_chat_1")
+                           text_button_color.style.color = color_text
+                        }
+      </script>
+      <style>
+         .whatsapp-setting-fields {
+         padding: 30px 0;
+         border-bottom: 1px solid #dfe3e8;
+         color: #212b36;
+         }
+         .whatsapp-setting-fields:after {
+         content: "";
+         display: block;
+         clear: both;
+         }
+         .whatsapp-setting-fields a {
+         color: #006fbb;
+         }
+         .whatsapp-setting-fields input[type="text"],
+         .whatsapp-setting-fields input[type="number"] {
+         width: 100%;
+         height: 36px;
+         border: 1px solid #c4cdd5;
+         -webkit-box-shadow: inset 0 1px 0 0 rgba(99,115,129,.05);
+         -moz-box-shadow: inset 0 1px 0 0 rgba(99,115,129,.05);
+         box-shadow: inset 0 1px 0 0 rgba(99,115,129,.05);
+         -webkit-border-radius: 3px;
+         -moz-border-radius: 3px;
+         border-radius: 3px;
+         }
+         .whatsapp-setting-fields textarea {
+         width: 100%;
+         height: 60px;
+         border: 1px solid #c4cdd5;
+         -webkit-box-shadow: inset 0 1px 0 0 rgba(99,115,129,.05);
+         -moz-box-shadow: inset 0 1px 0 0 rgba(99,115,129,.05);
+         box-shadow: inset 0 1px 0 0 rgba(99,115,129,.05);
+         -webkit-border-radius: 3px;
+         -moz-border-radius: 3px;
+         border-radius: 3px;
+         }
+         .whatsapp-setting-title {
+         width: 300px;
+         float: left;
+         max-width: 40%;
+         padding-right: 20px;
+         }
+         .whatsapp-setting-title > strong {
+         font-size: 16px;
+         font-weight: bold;
+         margin-bottom: 16px;
+         display: block;
+         }
+         .whatsapp-setting-description {
+         color: #637381;
+         }
+         .whatsapp-setting-fields .whatsapp-setting-content {
+         width: calc(100% - 300px);
+         min-width: 60%;
+         float: right;
+         }
+         .bg{
+         background: blue;
+         }
+         section.whatsapp-setting-section {
+         padding: 16px 20px;
+         background: #fff;
+         -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .2);
+         -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, .2);
+         box-shadow: 0 1px 3px rgba(0, 0, 0, .2);
+         -webkit-border-radius: 3px;
+         -moz-border-radius: 3px;
+         border-radius: 3px;
+         }
+         section.whatsapp-setting-section + section.whatsapp-setting-section {
+         margin-top: 20px;
+         }
+         section.whatsapp-setting-section table {
+         width: 100%;
+         }
+         section.whatsapp-setting-section table thead {
+         border-bottom: 1px solid #c4cdd5;
+         }
+         section.whatsapp-setting-section table tr td {
+         padding: 16px;
+         }
+         section.whatsapp-setting-section .label {
+         margin: 0;
+         }
+         section.whatsapp-setting-section label:not(.label-radio) {
+         display: block;
+         }
+         .input-color-container {
+         position: relative;
+         width: 100%;
+         height: 36px;
+         border: 1px solid #c4cdd5;
+         -webkit-box-shadow: inset 0 1px 0 0 rgba(99,115,129,.05);
+         -moz-box-shadow: inset 0 1px 0 0 rgba(99,115,129,.05);
+         box-shadow: inset 0 1px 0 0 rgba(99,115,129,.05);
+         -webkit-border-radius: 3px;
+         -moz-border-radius: 3px;
+         border-radius: 3px;
+         }
+         .input-color-container input[type="color"] {
+         background: none;
+         border: none;
+         padding: 0;
+         width: 40px;
+         height: 28px;
+         margin: 3px 5px;
+         vertical-align: middle;
+         outline: none;
+         }
+         button.whatsapp-setting-button {
+         min-width: 120px;
+         height: 36px;
+         padding: 0 16px;
+         color: #212b36;
+         background: #fff;
+         background: linear-gradient(180deg,#fff,#f9fafb);
+         border: 1px solid #c4cdd5;
+         -webkit-box-shadow: 0 1px 0 0 rgba(22,29,37,.05);
+         -moz-box-shadow: 0 1px 0 0 rgba(22,29,37,.05);
+         box-shadow: 0 1px 0 0 rgba(22,29,37,.05);
+         -webkit-border-radius: 3px;
+         -moz-border-radius: 3px;
+         border-radius: 3px;
+         }
+         button.whatsapp-setting-button.enable {
+         background: #00805f;
+         background: -webkit-gradient(linear,left top,left bottom,from(#00805f),to(#007557));
+         background: -webkit-linear-gradient(top,#00805f,#007557);
+         background: -o-linear-gradient(top,#00805f,#007557);
+         background: linear-gradient(180deg,#00805f,#007557);
+         border-color: #00805f;
+         color: #fff;
+         }
+         .whatsapp-setting-fields.whatsapp-chat-settings button.whatsapp-setting-button,
+         .whatsapp-setting-fields.whatsapp-greetings-settings button.whatsapp-setting-button {
+         float: right;
+         }
+         .whatsapp-basic-settings button.whatsapp-setting-button + .whatsapp-setting-description {
+         margin-top: 20px;
+         }
+         table.whatsapp-numbers-table tbody tr {
+         border-bottom: 1px solid #f4f6f8;
+         }
+         table.whatsapp-numbers-table tfoot {
+         padding: 16px 0;
+         }
+         table.whatsapp-numbers-table span.status-online {
+         color: green;
+         }
+         table.whatsapp-numbers-table button.whatsapp-setting-button {
+         float: right;
+         }
+         table.whatsapp-button-table button.whatsapp-setting-button {
+         float: right;
+         }
+         .whatsapp-background-field:after,
+         .whatsapp-button-field:after {
+         content: "";
+         display: block;
+         clear: both;
+         }
+         .whatsapp-background-field label + label,
+         .whatsapp-button-field label + label {
+         margin-left: 10px;
+         }
+         .whatsapp-background-field label input[type="radio"],
+         .whatsapp-button-field label input[type="radio"] {
+         margin-right: 2px;
+         }
+         .whatsapp-background-field .column-left,
+         .whatsapp-button-field .column-left {
+         width: calc(50% - 10px);
+         float: left;
+         }
+         .whatsapp-background-field .column-right,
+         .whatsapp-button-field .column-right {
+         width: calc(50% - 10px);
+         float: right;
+         }
+         .edit-phone-number{
+         cursor:pointer;
+         }
+      </style>
+      <div class="whatsapp-settings-container container">
+         <div class="whatsapp-setting-fields whatsapp-chat-settings">
+            <div class="whatsapp-setting-title">
+               <strong>WhatsApp Chat</strong>
+               <div class="whatsapp-setting-description">
+                  <p>Enable or Disable WhatsApp chat on your store</p>
+               </div>
+            </div>
+            <div class="whatsapp-setting-content">
+               <section class="whatsapp-setting-section">
+                  <table>
+                     <tbody>
+                        <tr>
+                           <td>
+                              WhatsApp Chat is currently
+                              <b>enabled</b>
+                              <a href="#" target="_blank" class="action-newwindow">View store</a>
+                           </td>
+                           <td>
+                              <button class="whatsapp-setting-button enable">Enable</button>
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
+               </section>
+            </div>
+         </div>
+         <div class="whatsapp-setting-fields whatsapp-basic-settings">
+            <div class="whatsapp-setting-title">
+               <strong>Basic Settings</strong>
+               <div class="whatsapp-setting-description">
+                  <p>Configure WhatsApp Chat by adding one or more WhatsApp numbers.</p>
+                  <p>Edit On/Off hours to make the chat button display during online hours, and be hidden from your website during offline hours.</p>
+               </div>
+            </div>
+            <div class="whatsapp-setting-content">
+               <section class="whatsapp-setting-section">
+                  <table class="whatsapp-numbers-table">
+                     <thead>
+                        <tr>
+                           <td>Phone number</td>
+                           <td>Agent name</td>
+                           <td>Status</td>
+                           <td/>
+                           <td/>
+                        </tr>
+                     </thead>
+                     <tbody  t-foreach="widget.phone_numbers" t-as="phone">
+                        <tr>
+                           <td>
+                              <t t-esc="phone.phone_number"/>
+                           </td>
+                           <td>storeodoo Admin</td>
+                           <td>
+                              <span class="status-online">Online</span>
+                           </td>
+                           <td>
+                              <a  t-att-id="phone.id" onclick="var eId = jQuery(this).attr('id');console.log(eId); window.core.bus.trigger('shooted',eId);" class="edit-phone-number">Edit details</a>
+                           </td>
+                           <td>
+                              <a href="#">Disable</a>
+                           </td>
+                        </tr>
+                     </tbody>
+                     <tfoot>
+                        <tr>
+                           <td colspan="5">
+                              <button  class="whatsapp-setting-button o_basic_setting_add_number">+ Add another number</button>
+                           </td>
+                        </tr>
+                     </tfoot>
+                  </table>
+               </section>
+               <section class="whatsapp-setting-section" t-foreach="widget.config_time_ids" t-as="time">
+                  <t t-if="time.config_time_hours">
+                     <button class="whatsapp-setting-button" t-att-id="time.config_time_hours" onclick="var Uid=jQuery(this).attr('id'); window.core.bus.trigger('edit_time',Uid);">Edit hours</button>
+                  </t>
+                  <t t-else="">
+                     <button class="whatsapp-setting-button o_basic_setting_time_number">Edit on/off hours</button>
+                  </t>
+                  <div class="whatsapp-setting-description">
+                     <p>Set on/off hours for chat button. Chat button will be visible on your website during online hours, and hidden during offline hours.</p>
+                     <p>Note: If your agents work in shifts and you want to set online hours for individual agents, then click on "Edit details" for the agent and set on/off hours there.</p>
+                  </div>
+               </section>
+            </div>
+         </div>
+         <div class="whatsapp-setting-fields whatsapp-button-settings">
+            <div class="whatsapp-setting-title">
+               <strong>Button Text  Design</strong>
+               <div class="whatsapp-setting-description">
+                  <p>Configure CTA text for the chat button, pre-filled message, and choose from several beautiful chat button designs on what suits your store best.</p>
+               </div>
+            </div>
+            <div class="whatsapp-setting-content" t-foreach="widget.config_time_ids" t-as="button_style" >
+               <!-- -IFPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP -->
+               <t t-if="button_style.config_button_color">
+                  <div t-foreach="widget.button_text_color" t-as="color">
+                     <section class="whatsapp-setting-section" >
+                        <table class="whatsapp-button-table">
+                           <tbody >
+                              <tr>
+                                 <td>
+                                    <button class="whatsapp-setting-button" id="button_chat_1" style="float:left;" t-att-value="color.background_colour_1"><t t-esc="color.chat_button_text"/></button>
+                                 </td>
+                                 <td width="160">
+                                    <button class="whatsapp-setting-button">Change Design</button>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </section>
+                     <section class="whatsapp-setting-section">
+                        <div class="whatsapp-setting-description">
+                           <button type="submit" class="whatsapp-setting-button" t-att-id="color.id" onclick="var colorId=jQuery(this).attr('id'); window.core.bus.trigger('ColorButton',colorId);">Save/Edit Color</button>
+                           <br/><br/>
+                           <p>You are currently setting custom colours</p>
+                        </div>
+                        <div class="whatsapp-background-fields">
+                            <t t-if="color.color_button_text =='grandient'">
+                                 <div class="whatsapp-background-field">
+                                      <p class="label">Background colour style</p>
+                                      <label class="label-radio">
+                                    <input disabled="disabled"  type="radio" name="background_color_style" value="single"/>
+                                      <span>Single colour</span>
+                                      </label>
+                                      <label class="label-radio">
+                                    <input disabled="disabled"  type="radio" name="background_color_style" value="gradient"  checked="checked"/>
+                                      <span>Gradient of two colours</span>
+                                      </label>
+                                </div>
+                            </t>
+
+                            <t t-else="">
+                                 <div class="whatsapp-background-field">
+                                      <p class="label">Background colour style</p>
+                                      <label class="label-radio">
+                                    <input type="radio" name="background_color_style" value="single" checked="checked" disabled="disabled"/>
+                                      <span>Single colour</span>
+                                      </label>
+                                      <label class="label-radio">
+                                    <input  type="radio" name="background_color_style" value="gradient" disabled="disabled"/>
+                                      <span>Gradient of two colours</span>
+                                      </label>
+                                </div>
+                            </t>
+
+                           <div class="whatsapp-background-field">
+                              <div class="column-left">
+                                 <p class="label">Background colour 2 (for gradient)</p>
+                                 <label class="input-color-container">
+                                  <input type="color" name="background_color_1" class="input-color" id="color_1" t-att-value="color.background_colour_1" disabled="disabled"/>
+                                    <span class="color-value" id="res_1">
+                                       <t t-esc="color.background_colour_1"></t>
+                                    </span>
+                                 </label>
+                              </div>
+                              <t t-if="color.color_button_text =='grandient'">
+                                 <div class="column-right">
+                                    <p class="label">Background colour 2 (for gradient)</p>
+                                    <label class="input-color-container">
+                                     <input disabled="disabled"  type="color" name="background_color_2" class="input-color" id="color_2" t-att-value="color.background_colour_2"/>
+                                       <span class="color-value" id="res_2">
+                                          <t t-esc="color.background_colour_2"/>
+                                       </span>
+                                    </label>
+                                 </div>
+                              </t>
+                              <t t-else="">
+                                 <div class="column-right"></div>
+                              </t>
+
+                           </div>
+                           <div class="whatsapp-background-field">
+                              <div class="column-left">
+                                 <p class="label">Icon colour</p>
+                                 <label class="input-color-container">
+                                  <input disabled="disabled"  type="color" name="icon_color" class="input-color" id="icon_color" t-att-value="color.icon_colour"/>
+                                    <span class="color-value" id="res_icon_color">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               <t t-esc="color.icon_colour"/>
+                                    </span>
+                                 </label>
+                              </div>
+                           </div>
+                           <div class="whatsapp-background-field">
+                              <div class="column-left">
+                                 <p class="label">Button text colour</p>
+                                 <label class="input-color-container">
+                                  <input disabled="disabled"  type="color" name="button_text_color" class="input-color" id="button_text_color" t-att-value="color.button_color"/>
+                                    <span class="color-value" id="res_button_text_color">
+                                       <t t-esc="color.button_color"/>
+                                    </span>
+                                 </label>
+                              </div>
+                           </div>
+                        </div>
+                     </section>
+                     <section class="whatsapp-setting-section">
+                        <div class="whatsapp-buttontext-fields">
+                           <div class="whatsapp-buttontext-field">
+                              <label>
+                                 <p class="label">Chat Button Text</p>
+                               <input disabled="disabled"  type="text" name="chat_button_text" t-att-value="color.chat_button_text"/>
+                              </label>
+                              <label>
+                                 <p class="label">WhatsApp Message Body</p>
+                                 <textarea name="whatsapp_message_body" disabled="disabled">
+                       <t t-esc="color.whatsapp_message_body"/>
+                   </textarea>
+                              </label>
+                              <label>
+                                  <t t-if="color.include_url">
+                                    <input disabled="disabled"  type="checkbox" name="include_url" checked="checked"/>
+                                  </t>
+                                  <t t-else="">
+                                     <input disabled="disabled"  type="checkbox" name="include_url"/>
+                                  </t>
+
+                              <span>Include current page URL in the message</span>
+                              </label>
+                           </div>
+                        </div>
+                     </section>
+                  </div>
+               </t>
+               <!-- hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh -->
+               <t t-else="">
+                  <section class="whatsapp-setting-section" >
+                     <table class="whatsapp-button-table">
+                        <tbody >
+                           <tr>
+                              <td>
+                                 <button class="whatsapp-setting-button" id="button_chat_1" style="float:left;">Chat with us</button>
+                              </td>
+                              <td width="160">
+                                 <button class="whatsapp-setting-button">Change Design</button>
+                              </td>
+                           </tr>
+                        </tbody>
+                     </table>
+                  </section>
+                  <section class="whatsapp-setting-section">
+                     <div class="whatsapp-setting-description">
+                        <button type="submit" class="whatsapp-setting-button o_save_edit_button_color_1">Save/Edit Color</button>
+                        <br/><br/>
+                        <p>You are currently setting custom colours</p>
+                     </div>
+                     <div class="whatsapp-background-fields">
+                        <div class="whatsapp-background-field">
+                           <p class="label">Background colour style</p>
+                           <label class="label-radio">
+                         <input disabled="disabled"  type="radio" name="background_color_style" value="single" checked="checked"/>
+                           <span>Single colour</span>
+                           </label>
+                           <label class="label-radio">
+                         <input disabled="disabled"  type="radio" name="background_color_style" value="gradient"/>
+                           <span>Gradient of two colours</span>
+                           </label>
+                        </div>
+                        <div class="whatsapp-background-field">
+                           <div class="column-left">
+                              <p class="label">Background colour 2 (for gradient)</p>
+                              <label class="input-color-container">
+                            <input disabled="disabled"  type="color" name="background_color_1" class="input-color" id="color_1" value="#858dcc"/>
+                              <span class="color-value" id="res_1"></span>
+                              </label>
+                           </div>
+                           <div class="column-right">
+                              <p class="label">Background colour 2 (for gradient)</p>
+                              <label class="input-color-container">
+                            <input disabled="disabled"  type="color" name="background_color_2" class="input-color" id="color_2" value="#3fa937"/>
+                              <span class="color-value" id="res_2"></span>
+                              </label>
+                           </div>
+                        </div>
+                        <div class="whatsapp-background-field">
+                           <div class="column-left">
+                              <p class="label">Icon colour</p>
+                              <label class="input-color-container">
+                            <input disabled="disabled"  type="color" name="icon_color" class="input-color" id="icon_color" value="#3fa937"/>
+                              <span class="color-value" id="res_icon_color"></span>
+                              </label>
+                           </div>
+                        </div>
+                        <div class="whatsapp-background-field">
+                           <div class="column-left">
+                              <p class="label">Button text colour</p>
+                              <label class="input-color-container">
+                            <input disabled="disabled"  type="color" name="button_text_color" class="input-color" id="button_text_color" value="#3fa937"/>
+                              <span class="color-value" id="res_button_text_color"></span>
+                              </label>
+                           </div>
+                        </div>
+                     </div>
+                  </section>
+                  <section class="whatsapp-setting-section">
+                     <div class="whatsapp-buttontext-fields">
+                        <div class="whatsapp-buttontext-field">
+                           <label>
+                              <p class="label">Chat Button Text</p>
+                            <input disabled="disabled"  type="text" name="chat_button_text"/>
+                           </label>
+                           <label>
+                              <p class="label">WhatsApp Message Body</p>
+                              <textarea name="whatsapp_message_body"/>
+                           </label>
+                           <label>
+                         <input disabled="disabled"  type="checkbox" name="include_url"/>
+                           <span>Include current page URL in the message</span>
+                           </label>
+                        </div>
+                     </div>
+                  </section>
+               </t>
+            </div>
+         </div>
+         <div class="whatsapp-setting-fields whatsapp-calloutcard-settings">
+            <div class="whatsapp-setting-title">
+               <strong>Callout Card</strong>
+               <div class="whatsapp-setting-description">
+                  <p>Callout card makes the chat button more noticeable to new visitors of your store.</p>
+                  <p>To ensure a smooth non-obtrusive experience, callout card is displayed only once per day. Open your store in incognito browser if you are testing changes.</p>
+               </div>
+            </div>
+            <div class="whatsapp-setting-content" t-foreach="widget.config_time_ids" t-as="check_callout">
+               <t t-if="check_callout.config_callout_card_id">
+                    <section class="whatsapp-setting-section" t-foreach="widget.callout" t-as="callout">
+                   <button type="submit" class="whatsapp-setting-button" t-att-id="callout.id" onclick="var calloutId=jQuery(this).attr('id'); window.core.bus.trigger('CalloutButton',calloutId);">Save/Edit Callout Card</button>
+                  <br></br><br></br>
+                  <div class="whatsapp-calloutcard-fields">
+                     <div class="whatsapp-calloutcard-field">
+                        <label>
+                      <input disabled="disabled"  type="checkbox" name="show_callout_button"/>
+                        <span>Show callout card above chat button</span>
+                        <a href="#" target="_blank" class="action-newwindow">Preview</a>
+                        </label>
+                        <label>
+                           <p class="label">Callout Card Text</p>
+                         <input disabled="disabled"  type="text" name="callout_car_text" t-att-value="callout.callout_car_text"/>
+                        </label>
+                        <label>
+                           <p class="label">Callout card delay</p>
+                         <input disabled="disabled"  type="text" name="callout_card_delay" t-att-value="callout.callout_card_delay"/>
+                        </label>
+                        <div class="whatsapp-setting-description">
+                           <p>Time after which callout card is displayed, after chat button has loaded</p>
+                        </div>
+
+
+                     </div>
+                  </div>
+               </section>
+               </t>
+               <t t-else="">
+                    <section class="whatsapp-setting-section">
+                   <button type="submit" class="whatsapp-setting-button o_save_edit_callout_card">Save/Edit Callout Card</button>
+                  <br></br><br></br>
+                  <div class="whatsapp-calloutcard-fields">
+                     <div class="whatsapp-calloutcard-field">
+                        <label>
+                      <input disabled="disabled"  type="checkbox" name="show_callout_button"/>
+                        <span>Show callout card above chat button</span>
+                        <a href="#" target="_blank" class="action-newwindow">Preview</a>
+                        </label>
+                        <label>
+                           <p class="label">Callout Card Text</p>
+                         <input disabled="disabled"  type="text" name="callout_car_text"/>
+                        </label>
+                        <label>
+                           <p class="label">Callout card delay</p>
+                         <input disabled="disabled"  type="text" name="callout_card_delay"/>
+                        </label>
+                        <div class="whatsapp-setting-description">
+                           <p>Time after which callout card is displayed, after chat button has loaded</p>
+                        </div>
+                        <label>
+                      <input disabled="disabled"  type="checkbox" name="include_url"/>
+                        <span>Play notification sound</span>
+                        </label>
+                     </div>
+                  </div>
+               </section>
+               </t>
+
+
+            </div>
+         </div>
+<!--         <div class="whatsapp-setting-fields whatsapp-greetings-settings">-->
+<!--            <div class="whatsapp-setting-title">-->
+<!--               <strong>Greetings Widget</strong>-->
+<!--               <div class="whatsapp-setting-description">-->
+<!--                  <p>Greet your store visitors with with customised title and help text in the greetings widget.</p>-->
+<!--                  <p>Greetings widget is automatically enabled if you enable multiple WhatsApp numbers.</p>-->
+<!--               </div>-->
+<!--            </div>-->
+<!--            <div class="whatsapp-setting-content" t-foreach="widget.config_time_ids" t-as="color">-->
+<!--               <section class="whatsapp-setting-section">-->
+<!--                  <table>-->
+<!--                     <tbody>-->
+<!--                        <tr>-->
+<!--                           <td>-->
+<!--                              Greetings Widget is currently-->
+<!--                              <b>enabled</b>-->
+<!--                              <a href="#" target="_blank" class="action-newwindow">Preview</a>-->
+<!--                           </td>-->
+<!--                           <td>-->
+<!--                              <button class="whatsapp-setting-button">Disable</button>-->
+<!--                           </td>-->
+<!--                        </tr>-->
+<!--                     </tbody>-->
+<!--                  </table>-->
+<!--               </section>-->
+<!--               <section class="whatsapp-setting-section">-->
+<!--                  <table class="whatsapp-greetings-table">-->
+<!--                     <tbody>-->
+<!--                        <tr>-->
+<!--                           <td>-->
+<!--                              <button class="whatsapp-setting-button" style="float:left;"></button>-->
+<!--                           </td>-->
+<!--                           <td width="160">-->
+<!--                              <button class="whatsapp-setting-button">Change Design</button>-->
+<!--                           </td>-->
+<!--                        </tr>-->
+<!--                     </tbody>-->
+<!--                  </table>-->
+<!--               </section>-->
+<!--               <section class="whatsapp-setting-section" >-->
+<!--                  <div class="whatsapp-setting-description">-->
+<!--                     <p>You are currently setting custom colours</p>-->
+<!--                  </div>-->
+<!--                  <div class="whatsapp-background-fields">-->
+<!--                     <div class="whatsapp-background-field">-->
+<!--                        <p class="label">Background colour style</p>-->
+<!--                        <label class="label-radio">-->
+<!--                      <input disabled="disabled"  type="radio" name="select_colour_widget" value="single" checked="checked"/>-->
+<!--                        <span>Single colour</span>-->
+<!--                        </label>-->
+<!--                        <label class="label-radio">-->
+<!--                      <input disabled="disabled"  type="radio" name="select_colour_widget" value="gradient"/>-->
+<!--                        <span>Gradient of two colours</span>-->
+<!--                        </label>-->
+<!--                     </div>-->
+<!--                     <div class="whatsapp-background-field">-->
+<!--                        <div class="column-left">-->
+<!--                           <p class="label">Background colour 1</p>-->
+<!--                           <label class="input-color-container">-->
+<!--                         <input disabled="disabled"  type="color" name="background_color_1_widget" class="input-color" id="background_color_1_widget" value="#3fa937"/>-->
+<!--                           <span class="color-value" id="res_background_color_1_widget"></span>-->
+<!--                           </label>-->
+<!--                        </div>-->
+<!--                        <div class="column-right">-->
+<!--                           <p class="label">Background colour 2 (for gradient)</p>-->
+<!--                           <label class="input-color-container">-->
+<!--                         <input disabled="disabled"  type="color" name="background_color_2_widget" class="input-color" id="background_color_2_widget" value="#3fa937"/>-->
+<!--                           <span class="color-value" id="res_background_color_2_widget"></span>-->
+<!--                           </label>-->
+<!--                        </div>-->
+<!--                     </div>-->
+<!--                     <div class="whatsapp-background-field">-->
+<!--                        <div class="column-left">-->
+<!--                           <p class="label">Heading text colour</p>-->
+<!--                           <label class="input-color-container">-->
+<!--                         <input disabled="disabled"  type="color" name="heading_text_colour" class="input-color" id="heading_text_colour" value="#3fa937"/>-->
+<!--                           <span class="color-value" id="res_heading_text_colour"></span>-->
+<!--                           </label>-->
+<!--                        </div>-->
+<!--                        <div class="column-right">-->
+<!--                           <p class="label">Description text colour</p>-->
+<!--                           <label class="input-color-container">-->
+<!--                         <input disabled="disabled"  type="color" name="description_text_colour" class="input-color" id="description_text_colour" value="#3fa937"/>-->
+<!--                           <span class="color-value" id="res_description_text_colour"></span>-->
+<!--                           </label>-->
+<!--                        </div>-->
+<!--                     </div>-->
+<!--                  </div>-->
+<!--               </section>-->
+<!--               <section class="whatsapp-setting-section">-->
+<!--                  <div class="whatsapp-greetings-fields">-->
+<!--                     <div class="whatsapp-greetings-field">-->
+<!--                        <label>-->
+<!--                           <p class="label">Title</p>-->
+<!--                         <input disabled="disabled"  type="text" name="title_widget"/>-->
+<!--                        </label>-->
+<!--                        <label>-->
+<!--                           <p class="label">Help Text</p>-->
+<!--                         <input disabled="disabled"  type="text" name="help_text"/>-->
+<!--                        </label>-->
+<!--                        <label>-->
+<!--                      <input disabled="disabled"  type="checkbox" name="randomise_order"/>-->
+<!--                        <span>Randomise order of chat agents</span>-->
+<!--                        </label>-->
+<!--                     </div>-->
+<!--                  </div>-->
+<!--               </section>-->
+<!--            </div>-->
+<!--         </div>-->
+         <div class="whatsapp-setting-fields whatsapp-button-settings">
+            <div class="whatsapp-setting-title">
+               <strong>Button Display Position</strong>
+               <div class="whatsapp-setting-description">
+                  <p>Change the display position of the chat button to best suit your store’s design.</p>
+               </div>
+            </div>
+
+            <div t-foreach="widget.config_time_ids" t-as="check_button_display">
+               <t t-if="check_button_display.config_button_display_position_id">
+                     <div class="whatsapp-setting-content">
+
+               <section class="whatsapp-setting-section" t-foreach="widget.button_position" t-as="button_position">
+                   <button type="submit" class="whatsapp-setting-button" t-att-id="button_position.id" onclick="var ButtonPositionId=jQuery(this).attr('id'); window.core.bus.trigger('ButtonPosition',ButtonPositionId);">Save/Edit Button Display Position</button>
+                   <br></br><br></br>
+                  <div class="whatsapp-setting-description">
+                     <p>You are currently setting custom colours</p>
+                  </div>
+                  <div class="whatsapp-button-fields">
+
+                     <div class="whatsapp-button-field">
+                        <p class="label">Chat Button Display</p>
+                        <label class="label-radio">
+                      <input disabled="disabled"  type="radio" name="chat_button_display" value="mobile_desktop" checked="checked"  />
+                        <span>Mobile + Desktop</span>
+                        </label>
+                        <label class="label-radio">
+                      <input disabled="disabled"  type="radio" name="chat_button_display" value="mobile_only"/>
+                        <span>Mobile only</span>
+                        </label>
+                        <label class="label-radio">
+                      <input disabled="disabled"  type="radio" name="chat_button_display" value="desktop_only"/>
+                        <span>Desktop only</span>
+                        </label>
+                     </div>
+
+                     <div class="whatsapp-button-field">
+                        <div class="column-left">
+                           <p class="label">Chat Button Position (Mobile)</p>
+                           <label class="label-radio">
+                         <input disabled="disabled"  type="radio" name="button_mobile_position" value="mobile_left" checked="checked"/>
+                           <span>Left</span>
+                           </label>
+                           <label class="label-radio">
+                         <input disabled="disabled"  type="radio" name="button_mobile_position" value="mobile_right"/>
+                           <span>Right</span>
+                           </label>
+                        </div>
+                        <div class="column-right">
+                           <p class="label">Chat Button Position (Desktop)</p>
+                           <label class="label-radio">
+                         <input disabled="disabled"  type="radio" name="button_desktop_position" value="desktop_left" checked="checked"/>
+                           <span>Left</span>
+                           </label>
+                           <label class="label-radio">
+                         <input disabled="disabled"  type="radio" name="button_desktop_position" value="desktop_right"/>
+                           <span>Right</span>
+                           </label>
+                        </div>
+                     </div>
+                     <div class="whatsapp-button-field">
+                        <div class="column-left">
+                           <label>
+                              <p class="label">HEIGHT offset (Mobile)</p>
+                            <input disabled="disabled"  type="number" name="height_mobile" t-att-value="button_position.height_mobile"/>
+                              <div class="whatsapp-setting-description">
+                                 <p>Change the height of chat button on mobile</p>
+                              </div>
+                           </label>
+                        </div>
+                        <div class="column-right">
+                           <label>
+                              <p class="label">HEIGHT offset (Desktop)</p>
+                            <input disabled="disabled"  type="number" name="height_desktop" t-att-value="button_position.height_desktop"/>
+                              <div class="whatsapp-setting-description">
+                                 <p>Change the height of chat button on desktop</p>
+                              </div>
+                           </label>
+                        </div>
+                     </div>
+                     <div class="whatsapp-button-field">
+                        <div class="column-left">
+                           <label>
+                              <p class="label">EDGE offset (Mobile)</p>
+                            <input disabled="disabled"  type="number" name="edge_mobile" t-att-value="button_position.edge_mobile"/>
+                              <div class="whatsapp-setting-description">
+                                 <p>Change the distance of chat button from the edge of the screen on mobile</p>
+                              </div>
+                           </label>
+                        </div>
+                        <div class="column-right">
+                           <label>
+                              <p class="label">EDGE offset (Desktop)</p>
+                            <input disabled="disabled"  type="number" name="edge_desktop" t-att-value="button_position.edge_desktop"/>
+                              <div class="whatsapp-setting-description">
+                                 <p>Change the distance of chat button from the edge of the screen on desktop</p>
+                              </div>
+                           </label>
+                        </div>
+                     </div>
+                  </div>
+               </section>
+            </div>
+               </t>
+               <t t-else="">
+                    <div class="whatsapp-setting-content">
+
+               <section class="whatsapp-setting-section">
+                   <button type="submit" class="whatsapp-setting-button o_save_edit_button_display_position">Save/Edit Button Display Position</button>
+                   <br></br><br></br>
+                  <div class="whatsapp-setting-description">
+                     <p>You are currently setting custom colours</p>
+                  </div>
+                  <div class="whatsapp-button-fields">
+                     <div class="whatsapp-button-field">
+                        <p class="label">Chat Button Display</p>
+                        <label class="label-radio">
+                      <input disabled="disabled"  type="radio" name="chat_button_display" value="mobile_desktop" checked="checked"/>
+                        <span>Mobile + Desktop</span>
+                        </label>
+                        <label class="label-radio">
+                      <input disabled="disabled"  type="radio" name="chat_button_display" value="mobile_only"/>
+                        <span>Mobile only</span>
+                        </label>
+                        <label class="label-radio">
+                      <input disabled="disabled"  type="radio" name="chat_button_display" value="desktop_only"/>
+                        <span>Desktop only</span>
+                        </label>
+                     </div>
+                     <div class="whatsapp-button-field">
+                        <div class="column-left">
+                           <p class="label">Chat Button Position (Mobile)</p>
+                           <label class="label-radio">
+                         <input disabled="disabled"  type="radio" name="button_mobile_position" value="mobile_left" checked="checked"/>
+                           <span>Left</span>
+                           </label>
+                           <label class="label-radio">
+                         <input disabled="disabled"  type="radio" name="button_mobile_position" value="mobile_right"/>
+                           <span>Right</span>
+                           </label>
+                        </div>
+                        <div class="column-right">
+                           <p class="label">Chat Button Position (Desktop)</p>
+                           <label class="label-radio">
+                         <input disabled="disabled"  type="radio" name="button_desktop_position" value="desktop_left" checked="checked"/>
+                           <span>Left</span>
+                           </label>
+                           <label class="label-radio">
+                         <input disabled="disabled"  type="radio" name="button_desktop_position" value="desktop_right"/>
+                           <span>Right</span>
+                           </label>
+                        </div>
+                     </div>
+                     <div class="whatsapp-button-field">
+                        <div class="column-left">
+                           <label>
+                              <p class="label">HEIGHT offset (Mobile)</p>
+                            <input disabled="disabled"  type="number" name="height_mobile"/>
+                              <div class="whatsapp-setting-description">
+                                 <p>Change the height of chat button on mobile</p>
+                              </div>
+                           </label>
+                        </div>
+                        <div class="column-right">
+                           <label>
+                              <p class="label">HEIGHT offset (Desktop)</p>
+                            <input disabled="disabled"  type="number" name="height_desktop"/>
+                              <div class="whatsapp-setting-description">
+                                 <p>Change the height of chat button on desktop</p>
+                              </div>
+                           </label>
+                        </div>
+                     </div>
+                     <div class="whatsapp-button-field">
+                        <div class="column-left">
+                           <label>
+                              <p class="label">EDGE offset (Mobile)</p>
+                            <input disabled="disabled"  type="number" name="edge_mobile"/>
+                              <div class="whatsapp-setting-description">
+                                 <p>Change the distance of chat button from the edge of the screen on mobile</p>
+                              </div>
+                           </label>
+                        </div>
+                        <div class="column-right">
+                           <label>
+                              <p class="label">EDGE offset (Desktop)</p>
+                            <input disabled="disabled"  type="number" name="edge_desktop"/>
+                              <div class="whatsapp-setting-description">
+                                 <p>Change the distance of chat button from the edge of the screen on desktop</p>
+                              </div>
+                           </label>
+                        </div>
+                     </div>
+                  </div>
+               </section>
+            </div>
+               </t>
+
+
+
+
+
+            </div>
+
 
          </div>
+         <div class="whatsapp-setting-fields whatsapp-pages-settings">
+            <div class="whatsapp-setting-title">
+               <strong>Pages to display</strong>
+               <div class="whatsapp-setting-description">
+                  <p>Select which pages to display the WhatsApp Chat button.</p>
+               </div>
+            </div>
+            <div class="whatsapp-setting-content" t-foreach="widget.config_time_ids" t-as="check_pages">
+               <t t-if="check_pages.config_pages_to_display_id">
+                  <section class="whatsapp-setting-section" t-foreach="widget.pages_display" t-as="pages_display">
+                  <button type="submit" class="whatsapp-setting-button" t-att-id="pages_display.id" onclick="var PagesId=jQuery(this).attr('id');window.core.bus.trigger('PagesButton',PagesId);">Save/Edit Pages to display</button>
+                   <br></br><br></br>
+                  <div class="whatsapp-pages-fields">
+                     <div class="whatsapp-pages-field">
+                        <p>Pages to display WhatsApp Chat Button</p>
+                        <label>
+                           <t t-if="pages_display.home_page">
+                              <input disabled="disabled"  type="checkbox" name="home_page" checked="checked"/>
+                           </t>
+                           <t t-else="">
+                               <input disabled="disabled"  type="checkbox" name="home_page"/>
+                           </t>
+                        <span>Homepage</span>
+                        </label>
+                        <label>
+                            <t t-if="pages_display.collections">
+                              <input disabled="disabled"  type="checkbox" name="collections" checked="checked"/>
+                           </t>
+                           <t t-else="">
+                               <input disabled="disabled"  type="checkbox" name="collections"/>
+                           </t>
+                        <span>Collections</span>
+                        </label>
+                        <label>
+                        <t t-if="pages_display.product_page">
+                              <input disabled="disabled"  type="checkbox" name="product_page" checked="checked"/>
+                           </t>
+                           <t t-else="">
+                               <input disabled="disabled"  type="checkbox" name="product_page"/>
+                           </t>
 
-        <div t-name="ButtonTemplate">
-            <table style="height: 246px;margin:0px auto;" width="1000px">
-               <tbody>
-                  <tr>
-                     <td style="width: 169px;text-align: center;">
-                        <div class="templateItem"><label><input type="radio" name="button_style"  id="button_style" value="1" /><span class="tmplinput"><img class="imgchatscale1 tmplimg" src="https://cdn.shopify.com/s/files/1/0070/3666/5911/files/ordering_1.png?v=1586260188" alt="" width="160" /></span></label></div>
-                     </td>
-                     <td style="width: 168px;text-align: center;">
-                        <div class="templateItem"><label><input type="radio" name="button_style"  id="button_style" value="2" /><span class="tmplinput"><img class="imgchatscale2 tmplimg" src="https://cdn.shopify.com/s/files/1/0070/3666/5911/files/ordering_2.png?v=1586260188" alt="" width="160" /></span></label></div>
-                     </td>
-                     <td style="width: 168px;text-align: center;">
-                        <div class="templateItem"><label><input type="radio" name="button_style"  id="button_style" value="3"/><span class="tmplinput"><img class="imgchatscale3 tmplimg" src="https://cdn.shopify.com/s/files/1/0070/3666/5911/files/ordering_3.png?v=1586260188" alt="" width="70"/></span></label></div>
-                     </td>
-                     <td style="width: 169px;text-align: center;">
-                        <div class="templateItem"><label><input type="radio" name="button_style"  id="button_style" value="21"/><span class="tmplinput"><img class="imgchatscale1 tmplimg" src="https://cdn.shopify.com/s/files/1/0070/3666/5911/files/ordering_4.png?v=1586260189" alt="" width="160"/></span></label></div>
-                     </td>
-                  </tr>
-                  <tr>
-                     <td style="width: 169px;text-align: center;">
-                        <div class="templateItem"><label><input type="radio" name="button_style"  id="button_style" value="1" /><span class="tmplinput"><img class="imgchatscale1 tmplimg" src="https://cdn.shopify.com/s/files/1/0070/3666/5911/files/ordering_5.png?v=1586260188" alt="" width="160" /></span></label></div>
-                     </td>
-                     <td style="width: 169px;text-align: center;">
-                        <div class="templateItem"><label><input type="radio" name="button_style"  id="button_style" value="2" /><span class="tmplinput"><img class="imgchatscale2 tmplimg" src="https://cdn.shopify.com/s/files/1/0070/3666/5911/files/ordering_6.png?v=1586260188" alt="" width="160" /></span></label></div>
-                     </td>
-                     <td style="width: 168px;text-align: center;">
-                        <div class="templateItem"><label><input type="radio" name="button_style"  id="button_style" value="3"/><span class="tmplinput"><img class="imgchatscale3 tmplimg" src="https://cdn.shopify.com/s/files/1/0070/3666/5911/files/ordering_7.png?v=1586260188" alt="" width="70"/></span></label></div>
-                     </td>
-                     <td style="width: 169px;text-align: center;">
-                        <div class="templateItem"><label><input type="radio" name="button_style"  id="button_style" value="21"/><span class="tmplinput"><img class="imgchatscale1 tmplimg" src="https://cdn.shopify.com/s/files/1/0070/3666/5911/files/ordering_8.png?v=1586260189" alt="" width="160"/></span></label></div>
-                     </td>
-                  </tr>
-                  <tr>
-                     <td style="width: 169px;text-align: center;">
-                        <div class="templateItem"><label><input type="radio" name="button_style"  id="button_style" value="1" /><span class="tmplinput"><img class="imgchatscale1 tmplimg" src="https://cdn.shopify.com/s/files/1/0070/3666/5911/files/ordering_9.png?v=1586260188" alt="" width="160" /></span></label></div>
-                     </td>
-                     <td style="width: 169px;text-align: center;">
-                        <div class="templateItem"><label><input type="radio" name="button_style"  id="button_style" value="2" /><span class="tmplinput"><img class="imgchatscale2 tmplimg" src="https://cdn.shopify.com/s/files/1/0070/3666/5911/files/ordering_10.png?v=1586260188" alt="" width="160" /></span></label></div>
-                     </td>
-                     <td style="width: 168px;text-align: center;">
-                        <div class="templateItem"><label><input type="radio" name="button_style"  id="button_style" value="3"/><span class="tmplinput"><img class="imgchatscale3 tmplimg" src="https://cdn.shopify.com/s/files/1/0070/3666/5911/files/ordering_11.png?v=1586260188" alt="" width="70"/></span></label></div>
-                     </td>
-                     <td style="width: 169px;text-align: center;">
-                        <div class="templateItem"><label><input type="radio" name="button_style"  id="button_style" value="21"/><span class="tmplinput"><img class="imgchatscale1 tmplimg" src="https://cdn.shopify.com/s/files/1/0070/3666/5911/files/ordering_12.png?v=1586260189" alt="" width="160"/></span></label></div>
-                     </td>
-                  </tr>
-                  <tr>
-                     <td style="width: 169px;text-align: center;">
-                        <div class="templateItem"><label><input type="radio" name="button_style"  id="button_style" value="1" /><span class="tmplinput"><img class="imgchatscale1 tmplimg" src="https://cdn.shopify.com/s/files/1/0070/3666/5911/files/ordering_13.png?v=1586260188" alt="" width="160" /></span></label></div>
-                     </td>
-                     <td style="width: 169px;text-align: center;">
-                        <div class="templateItem"><label><input type="radio" name="button_style"  id="button_style" value="2" /><span class="tmplinput"><img class="imgchatscale2 tmplimg" src="https://cdn.shopify.com/s/files/1/0070/3666/5911/files/ordering_14.png?v=1586260188" alt="" width="160" /></span></label></div>
-                     </td>
-                     <td style="width: 168px;text-align: center;">
-                        <div class="templateItem"><label><input type="radio" name="button_style"  id="button_style" value="3"/><span class="tmplinput"><img class="imgchatscale3 tmplimg" src="https://cdn.shopify.com/s/files/1/0070/3666/5911/files/ordering_15.png?v=1586260188" alt="" width="70"/></span></label></div>
-                     </td>
-                     <td style="width: 169px;text-align: center;">
-                        <div class="templateItem"><label><input type="radio" name="button_style"  id="button_style" value="21"/><span class="tmplinput"><img class="imgchatscale1 tmplimg" src="https://cdn.shopify.com/s/files/1/0070/3666/5911/files/ordering_16.png?v=1586260189" alt="" width="160"/></span></label></div>
-                     </td>
-                  </tr>
-                  <tr>
-                     <td style="width: 169px;text-align: center;">
-                        <div class="templateItem"><label><input type="radio" name="button_style"  id="button_style" value="1" /><span class="tmplinput"><img class="imgchatscale1 tmplimg" src="https://cdn.shopify.com/s/files/1/0070/3666/5911/files/ordering_17.png?v=1586260188" alt="" width="160" /></span></label></div>
-                     </td>
-                     <td style="width: 169px;text-align: center;">
-                        <div class="templateItem"><label><input type="radio" name="button_style"  id="button_style" value="2" /><span class="tmplinput"><img class="imgchatscale2 tmplimg" src="https://cdn.shopify.com/s/files/1/0070/3666/5911/files/ordering_18.png?v=1586260188" alt="" width="160" /></span></label></div>
-                     </td>
-                     <td style="width: 168px;text-align: center;">
-                        <div class="templateItem"><label><input type="radio" name="button_style"  id="button_style" value="3"/><span class="tmplinput"><img class="imgchatscale3 tmplimg" src="https://cdn.shopify.com/s/files/1/0070/3666/5911/files/ordering_19.png?v=1586260188" alt="" width="70"/></span></label></div>
-                     </td>
-                     <td style="width: 169px;text-align: center;">
-                        <div class="templateItem"><label><input type="radio" name="button_style"  id="button_style" value="21"/><span class="tmplinput"><img class="imgchatscale1 tmplimg" src="https://cdn.shopify.com/s/files/1/0070/3666/5911/files/ordering_20.png?v=1586260189" alt="" width="160"/></span></label></div>
-                     </td>
-                  </tr>
-                  <tr>
-                     <td style="width: 169px;text-align: center;">
-                        <div class="templateItem"><label><input type="radio" name="button_style"  id="button_style" value="1" /><span class="tmplinput"><img class="imgchatscale1 tmplimg" src="https://cdn.shopify.com/s/files/1/0070/3666/5911/files/ordering_21.png?v=1586260188" alt="" width="160" /></span></label></div>
-                     </td>
-                     <td style="width: 169px;text-align: center;">
-                        <div class="templateItem"><label><input type="radio" name="button_style"  id="button_style" value="2" /><span class="tmplinput"><img class="imgchatscale2 tmplimg" src="https://cdn.shopify.com/s/files/1/0070/3666/5911/files/ordering_22.png?v=1586260188" alt="" width="160" /></span></label></div>
-                     </td>
-                     <td style="width: 168px;text-align: center;">
-                        <div class="templateItem"><label><input type="radio" name="button_style"  id="button_style" value="3"/><span class="tmplinput"><img class="imgchatscale3 tmplimg" src="https://cdn.shopify.com/s/files/1/0070/3666/5911/files/ordering_23.png?v=1586260188" alt="" width="70"/></span></label></div>
-                     </td>
-                     <td style="width: 169px;text-align: center;">
-                        <div class="templateItem"><label><input type="radio" name="button_style"  id="button_style" value="21"/><span class="tmplinput"><img class="imgchatscale1 tmplimg" src="https://cdn.shopify.com/s/files/1/0070/3666/5911/files/ordering_24.png?v=1586260189" alt="" width="160"/></span></label></div>
-                     </td>
-                  </tr>
-                  <tr>
-                     <td style="width: 169px;text-align: center;">
-                        <div class="templateItem"><label><input type="radio" name="button_style"  id="button_style" value="1" /><span class="tmplinput"><img class="imgchatscale1 tmplimg" src="https://cdn.shopify.com/s/files/1/0070/3666/5911/files/ordering_25.png?v=1586260188" alt="" width="160" /></span></label></div>
-                     </td>
-                     <td style="width: 169px;text-align: center;">
-                        <div class="templateItem"><label><input type="radio" name="button_style"  id="button_style" value="2" /><span class="tmplinput"><img class="imgchatscale2 tmplimg" src="https://cdn.shopify.com/s/files/1/0070/3666/5911/files/ordering_26.png?v=1586260188" alt="" width="160" /></span></label></div>
-                     </td>
-                     <td style="width: 168px;text-align: center;">
-                        <div class="templateItem"><label><input type="radio" name="button_style"  id="button_style" value="3"/><span class="tmplinput"><img class="imgchatscale3 tmplimg" src="https://cdn.shopify.com/s/files/1/0070/3666/5911/files/ordering_27.png?v=1586260188" alt="" width="70"/></span></label></div>
-                     </td>
-                     <td style="width: 169px;text-align: center;">
-                        <div class="templateItem"><label><input type="radio" name="button_style"  id="button_style" value="21"/><span class="tmplinput"><img class="imgchatscale1 tmplimg" src="https://cdn.shopify.com/s/files/1/0070/3666/5911/files/ordering_28.png?v=1586260189" alt="" width="160"/></span></label></div>
-                     </td>
-                  </tr>
-                  <tr>
-                     <td style="width: 169px;text-align: center;">
-                        <div class="templateItem"><label><input type="radio" name="button_style"  id="button_style" value="1" /><span class="tmplinput"><img class="imgchatscale1 tmplimg" src="https://cdn.shopify.com/s/files/1/0070/3666/5911/files/ordering_29.png?v=1586260188" alt="" width="160" /></span></label></div>
-                     </td>
-                     <td style="width: 169px;text-align: center;">
-                        <div class="templateItem"><label><input type="radio" name="button_style"  id="button_style" value="2" /><span class="tmplinput"><img class="imgchatscale2 tmplimg" src="https://cdn.shopify.com/s/files/1/0070/3666/5911/files/ordering_30.png?v=1586260188" alt="" width="160" /></span></label></div>
-                     </td>
-                     <td style="width: 168px;text-align: center;">
-                        <div class="templateItem"><label><input type="radio" name="button_style"  id="button_style" value="3"/><span class="tmplinput"><img class="imgchatscale3 tmplimg" src="https://cdn.shopify.com/s/files/1/0070/3666/5911/files/ordering_31.png?v=1586260188" alt="" width="70"/></span></label></div>
-                     </td>
-                     <td style="width: 169px;text-align: center;">
-                        <div class="templateItem"><label><input type="radio" name="button_style"  id="button_style" value="21"/><span class="tmplinput"><img class="imgchatscale1 tmplimg" src="https://cdn.shopify.com/s/files/1/0070/3666/5911/files/ordering_32.png?v=1586260189" alt="" width="160"/></span></label></div>
-                     </td>
-                  </tr>
-                  <tr>
-                     <td style="width: 169px;text-align: center;">
-                        <div class="templateItem"><label><input type="radio" name="button_style"  id="button_style" value="1" /><span class="tmplinput"><img class="imgchatscale1 tmplimg" src="https://cdn.shopify.com/s/files/1/0070/3666/5911/files/ordering_33.png?v=1586260188" alt="" width="160" /></span></label></div>
-                     </td>
-                     <td style="width: 169px;text-align: center;">
-                        <div class="templateItem"><label><input type="radio" name="button_style"  id="button_style" value="2" /><span class="tmplinput"><img class="imgchatscale2 tmplimg" src="https://cdn.shopify.com/s/files/1/0070/3666/5911/files/ordering_34.png?v=1586260188" alt="" width="160" /></span></label></div>
-                     </td>
-                     <td style="width: 168px;text-align: center;">
-                        <div class="templateItem"><label><input type="radio" name="button_style"  id="button_style" value="3"/><span class="tmplinput"><img class="imgchatscale3 tmplimg" src="https://cdn.shopify.com/s/files/1/0070/3666/5911/files/ordering_35.png?v=1586260188" alt="" width="70"/></span></label></div>
-                     </td>
-                     <td style="width: 168px;text-align: center;">
-                        <div class="templateItem"><label><input type="radio" name="button_style"  id="button_style" value="21"/><span class="tmplinput"><img class="imgchatscale1 tmplimg" src="https://cdn.shopify.com/s/files/1/0070/3666/5911/files/ordering_36.png?v=1586260189" alt="" width="160"/></span></label></div>
-                     </td>
-                  </tr>
-                  <tr>
-                     <td style="width: 169px;text-align: center;">
-                        <div class="templateItem"><label><input type="radio" name="button_style"  id="button_style" value="1" /><span class="tmplinput"><img class="imgchatscale1 tmplimg" src="https://cdn.shopify.com/s/files/1/0070/3666/5911/files/ordering_37.png?v=1586260188" alt="" width="160" /></span></label></div>
-                     </td>
-                     <td style="width: 169px;text-align: center;">
-                        <div class="templateItem"><label><input type="radio" name="button_style"  id="button_style" value="2" /><span class="tmplinput"><img class="imgchatscale2 tmplimg" src="https://cdn.shopify.com/s/files/1/0070/3666/5911/files/ordering_38.png?v=1586260188" alt="" width="160" /></span></label></div>
-                     </td>
-                     <td style="width: 168px;text-align: center;">
-                        <div class="templateItem"><label><input type="radio" name="button_style"  id="button_style" value="3"/><span class="tmplinput"><img class="imgchatscale3 tmplimg" src="https://cdn.shopify.com/s/files/1/0070/3666/5911/files/ordering_39.png?v=1586260188" alt="" width="70"/></span></label></div>
-                     </td>
-                     <td style="width: 169px;text-align: center;">
-                        <div class="templateItem"><label><input type="radio" name="button_style"  id="button_style" value="21"/><span class="tmplinput"><img class="imgchatscale1 tmplimg" src="https://cdn.shopify.com/s/files/1/0070/3666/5911/files/ordering_40.png?v=1586260189" alt="" width="160"/></span></label></div>
-                     </td>
-                  </tr>
-               </tbody>
-            </table>
-           <button class="btn btn-success" onclick="myFunction()">Xác nhận</button>
-        </div>
-            <script>
-            function myFunction() {
-              var x = document.getElementById("button_style").value;
-              alert(x)
-            }
-            </script>
+                        <span>Product pages</span>
+                        </label>
+                        <label>
+                            <t t-if="pages_display.cart">
+                              <input disabled="disabled"  type="checkbox" name="cart" checked="checked"/>
+                           </t>
+                           <t t-else="">
+                               <input disabled="disabled"  type="checkbox" name="cart"/>
+                           </t>
+
+                        <span>Cart</span>
+                        </label>
+                        <label>
+                           <t t-if="pages_display.thank_page">
+                              <input disabled="disabled"  type="checkbox" name="thank_page" checked="checked"/>
+                           </t>
+                           <t t-else="">
+                               <input disabled="disabled"  type="checkbox" name="thank_page"/>
+                           </t>
+
+                        <span>Thank You page</span>
+                        </label>
+                        <label>
+                           <t t-if="pages_display.blog_post">
+                              <input disabled="disabled"  type="checkbox" name="blog_post" checked="checked"/>
+                           </t>
+                           <t t-else="">
+                               <input disabled="disabled"  type="checkbox" name="blog_post"/>
+                           </t>
+
+                        <span>Blog post pages</span>
+                        </label>
+                        <label>
+                           <t t-if="pages_display.url_ending">
+                              <input disabled="disabled"  type="checkbox" name="url_ending" checked="checked"/>
+                           </t>
+                           <t t-else="">
+                               <input disabled="disabled"  type="checkbox" name="url_ending"/>
+                           </t>
+
+                        <span>URLs ending with /pages</span>
+                        </label>
+                        <label>
+                           <t t-if="pages_display.account_page">
+                              <input disabled="disabled"  type="checkbox" name="account_page" checked="checked"/>
+                           </t>
+                           <t t-else="">
+                               <input disabled="disabled"  type="checkbox" name="account_page"/>
+                           </t>
+
+                        <span>Account pages</span>
+                        </label>
+                        <div class="whatsapp-setting-description">
+                           <p>By default, WhatsApp Chat button will show on all other pages that aren’t listed above</p>
+
+                        </div>
+                     </div>
+                  </div>
+               </section>
+               </t>
+               <t t-else="">
+                  <section class="whatsapp-setting-section">
+                  <button type="submit" class="whatsapp-setting-button o_save_edit_pages_to_display">Save/Edit Pages to display</button>
+                   <br></br><br></br>
+                  <div class="whatsapp-pages-fields">
+                     <div class="whatsapp-pages-field">
+                        <p>Pages to display WhatsApp Chat Button</p>
+                        <label>
+                      <input disabled="disabled"  type="checkbox" name="homepage"/>
+                        <span>Homepage</span>
+                        </label>
+                        <label>
+                      <input disabled="disabled"  type="checkbox" name="collections"/>
+                        <span>Collections</span>
+                        </label>
+                        <label>
+                      <input disabled="disabled"  type="checkbox" name="product_page"/>
+                        <span>Product pages</span>
+                        </label>
+                        <label>
+                      <input disabled="disabled"  type="checkbox" name="cart"/>
+                        <span>Cart</span>
+                        </label>
+                        <label>
+                      <input disabled="disabled"  type="checkbox" name="thank_page"/>
+                        <span>Thank You page</span>
+                        </label>
+                        <label>
+                      <input disabled="disabled"  type="checkbox" name="blog_post"/>
+                        <span>Blog post pages</span>
+                        </label>
+                        <label>
+                      <input disabled="disabled"  type="checkbox" name="url_ending"/>
+                        <span>URLs ending with /pages</span>
+                        </label>
+                        <label>
+                      <input disabled="disabled"  type="checkbox" name="account_page"/>
+                        <span>Account pages</span>
+                        </label>
+                        <div class="whatsapp-setting-description">
+                           <p>By default, WhatsApp Chat button will show on all other pages that aren’t listed above</p>
+
+                        </div>
+                     </div>
+                  </div>
+               </section>
+               </t>
+            </div>
+         </div>
+      </div>
+   </div>
 </templates>

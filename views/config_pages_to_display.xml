@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="config_page_to_display_form_view">
+            <field name="name">config.page.to.display.form.view</field>
+            <field name="model">config.page.to.display</field>
+            <field name="arch" type="xml">
+                <form string="message_form">
+                    <sheet>
+                        <group>
+                            <field name="home_page" string="Home Page"/>
+                        </group>
+
+                        <group>
+                            <field name="collections" string='Collections'/>
+                        </group>
+
+                          <group>
+                            <field name="product_page" string='Product Page'/>
+                        </group>
+                          <group>
+                            <field name="cart" string='Cart'/>
+                        </group>
+
+                          <group>
+                            <field name="thank_page" string='Thank Page'/>
+                        </group>
+                         <group>
+                            <field name="blog_post" string='Blog Post'/>
+                        </group>
+                         <group>
+                            <field name="url_ending" string='Url'/>
+                        </group>
+                          <group>
+                            <field name="account_page" string='Account'/>
+                        </group>
+                    </sheet>
+                    <footer>
+                            <button name="confirm" string="Xác nhận" type="object" class="btn-primary"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    <record model="ir.actions.act_window"  id="config_page_to_display_action">
+          <field name="name">config.page.to.display.action</field>
+          <field name="res_model">config.page.to.display</field>
+          <field name="view_mode">form</field>
+    </record>
+
+    </data>
+</odoo>

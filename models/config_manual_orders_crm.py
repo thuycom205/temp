@@ -28,3 +28,4 @@ class ConfigManualOrderCrmLine(models.Model):
     date = fields.Date(string='Date')
     amount = fields.Char(string='Amount')
     status = fields.Char(string='status')
+    tags = fields.Many2many('message.manual.abandoned.1')

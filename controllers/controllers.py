@@ -58,8 +58,66 @@ def shopify_auth_required(f):
     return decorated_function
 
 
+class ConfigShopifyApp(http.Controller):
+    @http.route('/shopify/config/basic', type='http', auth='public', csrf=False)
+    def config_basic_form(self, **kwargs):
+        user = http.request.env.context.get('uid')
+        check_user_config = http.request.env['res.users'].sudo().search([('id', '=', user)])
+
+        if kwargs:
+            vals_basic_app = {
+                'user_id': user,
+                'select_colour': kwargs['background_color_style'],
+                'background_colour_1': kwargs['background_color_1'],
+                'background_colour_2': kwargs['background_color_2'],
+                'icon_colour': kwargs['icon_color'],
+                'button_color': kwargs['button_text_color'],
+                'chat_button_text': kwargs['chat_button_text'],
+                'whatsapp_message_body': kwargs['whatsapp_message_body'],
+                'include_url': True if 'include_url' in kwargs else False,
+                'show_callout_button': True if 'show_callout_button' in kwargs else False,
+                'callout_car_text': kwargs['callout_car_text'],
+                'callout_card_delay': kwargs['callout_card_delay'],
+                'select_colour_widget': kwargs['select_colour_widget'],
+                'background_colour_1_widget': kwargs['background_color_1_widget'],
+                'background_colour_2_widget': kwargs['background_color_2_widget'],
+                'heading_text_colour': kwargs['heading_text_colour'],
+                'description_text_colour': kwargs['description_text_colour'],
+                'title_widget': kwargs['title_widget'],
+                'help_text': kwargs['help_text'],
+                'randomise_order': True if 'randomise_order' in kwargs else False,
+                'chat_button_display': kwargs['chat_button_display'],
+                'button_mobile_position': kwargs['button_mobile_position'],
+                'button_desktop_position': kwargs['button_desktop_position'],
+                'height_mobile': kwargs['height_mobile'],
+                'height_desktop': kwargs['height_desktop'],
+                'edge_mobile': kwargs['edge_mobile'],
+                'edge_desktop': kwargs['edge_desktop'],
+                # 'set_height_button_page': True if 'set_height_button_page' in kwargs else False,
+                # 'height_mobile_page': kwargs['height_mobile_page'],
+                # 'height_desktop_page': kwargs['height_desktop_page'],
+                'home_page': True if 'home_page' in kwargs else False,
+                'collections': True if 'collections' in kwargs else False,
+                'product_page': True if 'product_page' in kwargs else False,
+                'cart': True if 'cart' in kwargs else False,
+                'thank_page': True if 'thank_page' in kwargs else False,
+                'blog_post': True if 'blog_post' in kwargs else False,
+                'url_ending': True if 'url_ending' in kwargs else False,
+                'account_page': True if 'account_page' in kwargs else False
+            }
+        if check_user_config:
+            if not check_user_config.config_basic_id:
+                config_create = http.request.env['config.basic.whats.app'].sudo().create(vals_basic_app)
+                http.request.env['res.users'].sudo().search([('id', '=', user)]).update({
+                    'config_basic_id': config_create
+                })
+            else:
+                config_update = http.request.env['config.basic.whats.app'].sudo().search(
+                    [('user_id', '=', user)]).update(vals_basic_app)
+
+
 class ShopifyApp(http.Controller):
-    @http.route('/shopify_app/sync_product/', type='json', auth='public',csrf=False, cors='*')
+    @http.route('/shopify_app/sync_product/', auth='public')
     def sync_product(self, **kw):
         uid = http.request.httprequest.session.uid
         shopify_token = http.request.httprequest.session.shopify_token
@@ -102,30 +160,17 @@ class ShopifyApp(http.Controller):
             output = []
             result = {}
             result['success'] = 'ok'
-            # output.append(result)
-            output.append({'title' : 'Vase' })
-            output.append({'title' : 'Desk' })
-            output.append({'title' : 'Table' })
+            output.append(result)
             return output;
         else:
             output = []
             result = {}
             result['success'] = 'ok'
-            output.append({'title': 'Vase'})
-            output.append({'title': 'Desk'})
-            output.append({'title': 'Table'})
+            output.append(result)
             return output;
 
     @http.route('/shopify_app/test/', auth='public')
     def test(self, **kw):
-        shop_url= 'My Belgian Company'
-        shopUrl = shop_url
-        shopUrlemail = shop_url.split('.')[0] + '@gmail.com'
-        companyModel = http.request.env['res.company']
-        # if request.env["res.users"].sudo().search([("login", "=", qcontext.get("login"))]):
-
-        company = companyModel.sudo().search([("name", "=", shopUrl)])
-        x = 1
         # response = shopify.Order.find_first(dict(source_name='web')).reload();
         # x = 1
         # shop1 = http.request.env['shopify_app.shopify_app']
@@ -236,21 +281,7 @@ class ShopifyApp(http.Controller):
     @http.route('/shopify_app/plan/', auth='public')
     def plan(self, **kw):
         return werkzeug.utils.redirect(
-            'https://c90bcfbe8e36.ngrok.io/web#action=1096&model=sale.order&view_type=kanban&cids=19&menu_id=781')
-
-    @http.route('/shopify_app/app_uninstalled', type='json', auth='public')
-    def app_uninstalled(self, **kwargs):
-        y = kwargs;
-        h = http.request.httprequest;
-        data = h.data
-        encoding = 'utf-8'
-        paypload = str(data, encoding)
-        jsonDataShop = json.loads(paypload)
-        shop_url = jsonDataShop['domain']
-        organizationEnv = http.request.env['shopify_app.shop']
-        organization = organizationEnv.sudo().search([("url", "=", shop_url)])
-        organization.write({'install_status':'uninstalled'})
-        x = 1
+            'https://44ca288ecea5.ngrok.io/web#action=1096&model=sale.order&view_type=kanban&cids=19&menu_id=781')
 
     # shopify_app / app_uninstalled
     @http.route('/shopify_app/order_create', type='json', auth='public')
@@ -263,10 +294,8 @@ class ShopifyApp(http.Controller):
         orderItem = json.loads(paypload)  # obj now contains a dict of the data
         is_rent_ok = False
         odooOrderLine = []
-
         orderId = orderItem['id'];
         orderItem['email'];
-
         orderItem['created_at'];
         # '2020-04-07T22:26:27-04:00'
         orderItem['number'];
@@ -301,7 +330,7 @@ class ShopifyApp(http.Controller):
             productIdLineItemVariant = lineItem['product_id']
             # Cup - 1/s
             lineItemName = lineItem['name']
-
+            orderLineProductName = lineItemName
             if '-' in lineItemName:
                 orderLineProductName = lineItemName.split('-')[0]
 
@@ -329,13 +358,13 @@ class ShopifyApp(http.Controller):
             if productInOdoo:
                 productId = productInOdoo.id
                 productVariantObj = productVariant.sudo().search([('product_tmpl_id', '=', productInOdoo.id)], limit=1)
-            else:
-                x = 1
-                # create the product in Odoo
-            orderLineTuple = (0, 0, {
-                'product_uom_qty': fulfillable_quantity,
-                'product_id': productVariantObj.id,
-                'product_template_id': productId})
+                # else:
+                #     x = 1
+                #     # create the product in Odoo
+                orderLineTuple = (0, 0, {
+                    'product_uom_qty': fulfillable_quantity,
+                    'product_id': productVariantObj.id,
+                    'product_template_id': productId})
 
             odooOrderLine.append(orderLineTuple)
 
@@ -367,18 +396,18 @@ class ShopifyApp(http.Controller):
             customerId = customerObj.id
         else:
             val = {
-                'name': kwargs['name'],
+                'name': kwargs['name'] if 'name' in kwargs else False,
                 'company_type': 'person',
-                'street': kwargs['street1'],
-                'street2': kwargs['street2'],
-                'city': kwargs['city'],
-                'zip': kwargs['zip'],
+                'street': kwargs['street1'] if 'street1' in kwargs else False,
+                'street2': kwargs['street2'] if 'street2' in kwargs else False,
+                'city': kwargs['city'] if 'city' in kwargs else False,
+                'zip': kwargs['zip'] if 'zip' in kwargs else False,
                 # 203
-                'state_id': kwargs['state_id'],
+                'state_id': kwargs['state_id'] if 'state_id' in kwargs else False,
                 # 113
-                'country_id': kwargs['country_id'],
-                'phone': kwargs['phone'],
-                'email': kwargs['email'],
+                'country_id': kwargs['country_id'] if 'country_id' in kwargs else False,
+                'phone': kwargs['phone'] if 'phone' in kwargs else False,
+                'email': kwargs['email'] if 'email' in kwargs else False,
                 'type': 'delivery'
             }
             customerObj = partner.sudo().create(val)
@@ -393,9 +422,18 @@ class ShopifyApp(http.Controller):
             'partner_id': customerId,
             'order_line': odooOrderLine
         }
-        createdOrder = order.sudo().create(vals)
+
         z = 1
 
+        #createdOrder = order.sudo().create(vals)
+        # Them order shopify vao database
+        vals_shopify_order = {
+            'checkout_user': str(orderItem['name']) + ' : ' + str(orderItem['checkout_id']),
+            'date': orderItem['created_at'],
+            'amount': orderItem['total_price'],
+            'status': 'Online'
+        }
+        http.request.env['config.manual.order.crm.line'].sudo().create(vals_shopify_order)
         # end customer
         # _logger.debug(" ========>order: %s !", (obj))
 
@@ -419,7 +457,7 @@ class ShopifyApp(http.Controller):
 
         if uid and shopify_token:
             return werkzeug.utils.redirect(
-                'https://c90bcfbe8e36.ngrok.io/web#action=1096&model=sale.order&view_type=kanban&cids=19&menu_id=781')
+                'https://44ca288ecea5.ngrok.io/web#action=1096&model=sale.order&view_type=kanban&cids=19&menu_id=781')
 
             # return http.request.render('shopify_app.plan', {
             #     'object': 'obj', 'permission_url': 'xyz'
@@ -436,7 +474,7 @@ class ShopifyApp(http.Controller):
             x = 4
             uid = http.request.httprequest.session.authenticate(db, shopUrlemail, "token")
             y = uid
-            return werkzeug.utils.redirect('https://c90bcfbe8e36.ngrok.io/web#action=1096&model=sale.order&view_type'
+            return werkzeug.utils.redirect('https://44ca288ecea5.ngrok.io/web#action=1096&model=sale.order&view_type'
                                            '=kanban&cids=19&menu_id=781')
         # session = shopify.Session('https://closeclose.myshopify.com/', 'unstable')
         #  user = http.request.env['res.users']
@@ -447,7 +485,7 @@ class ShopifyApp(http.Controller):
         #     vals={'is_published': False, 'company_ids': [[6, False, [2]]], 'company_id': 2, 'active': True, 'lang': 'en_US', 'tz': 'Europe/Brussels', 'notification_type': 'email', 'odoobot_state': 'not_initialized', 'image_1920': False, '__last_update': False, 'name': 'closefirst', 'email': 'closefirst@gmail.com', 'login': 'closefirst2@gmail.com', 'password': '123123','action_id': False, 'alias_id': False, 'alias_contact': False, 'signature': '<p><br></p>', 'sign_signature': False, 'sign_initials': False, 'livechat_username': False, 'groups_id': [(6, 0, [1, 33, 83, 87, 44, 38, 99, 72, 62, 65, 63, 85, 93, 74, 67, 101, 47, 22, 110, 77, 69, 121, 116, 105, 120, 51, 88, 97, 41, 55, 15, 36, 12, 13, 28, 111, 56, 14, 18, 24, 60, 54, 23, 19, 11, 20, 25, 16, 17, 26, 52, 108, 39, 53, 58, 45, 70, 30, 49, 48, 7, 5, 6, 10, 32, 29, 82, 81, 86, 40, 43, 42, 115, 21, 37, 98, 100, 71, 61, 64, 84, 119, 94, 92, 73, 66, 46, 109, 68, 50, 96])]};
         #     user.create(vals);
         else:
-            return werkzeug.utils.redirect('https://c90bcfbe8e36.ngrok.io/web#action=1096&model=sale.order&view_type'
+            return werkzeug.utils.redirect('https://44ca288ecea5.ngrok.io/web#action=1096&model=sale.order&view_type'
                                            '=kanban&cids=19&menu_id=781')
 
     @http.route('/shopify_app/shopify_app/', auth='public')
@@ -465,8 +503,8 @@ class ShopifyApp(http.Controller):
 
         scope = [
             "write_products", "read_products", "read_script_tags",
-            "write_script_tags", "read_orders", "read_checkouts"]
-        redirect_uri = "https://c90bcfbe8e36.ngrok.io/shopify_app/finalize"
+            "write_script_tags", "read_orders", "write_orders"]
+        redirect_uri = "https://44ca288ecea5.ngrok.io/shopify_app/finalize"
         permission_url = session.create_permission_url(
             scope, redirect_uri)
         return werkzeug.utils.redirect(permission_url)
@@ -479,21 +517,12 @@ class ShopifyApp(http.Controller):
         shopify.Session.setup(
             api_key=current_app.SHOPIFY_API_KEY,
             secret=current_app.SHOPIFY_SHARED_SECRET)
-        shopify_session = shopify.Session(shop_url, '2019-04')
-
-        # todo : write it to another storage
+        shopify_session = shopify.Session(shop_url, 'unstable')
         http.request.httprequest.session.shopify_obj = shopify_session
-
         token = shopify_session.request_token(kw)
 
         organizationEnv = http.request.env['shopify_app.shop']
         organization = organizationEnv.sudo().search([("url", "=", shop_url)])
-
-
-        if organization['install_status'] == 'uninstalled':
-            organization.write({'install_status': 'active'})
-
-
         if not organization:
             vals = {
                 'url': shop_url,
@@ -505,10 +534,10 @@ class ShopifyApp(http.Controller):
             shopUrl = shop_url
             shopUrlemail = shop_url.split('.')[0] + '@gmail.com'
             companyModel = http.request.env['res.company']
+            # if request.env["res.users"].sudo().search([("login", "=", qcontext.get("login"))]):
 
             company = companyModel.sudo().search([("name", "=", shopUrl)])
             if not company:
-                #create company
                 vals = {'logo': False, 'currency_id': 2, 'sequence': 10,
                         'favicon': 'AAABAAEAEBAAAAAAIAAGAgAAFgAAAIlQTkcNChoKAAAADUlIRFIAAAAQAAAAEAgGAAAAH/P/YQAAAc1JREFUeJyV0s+LzVEYBvDP+53vNUYzSZqFlbBgJUL5tWByJzaysZPJP2AhP+7SYhZXKZEtNRZKlqPUjEQTFmbhH5AosRPjTrr3zvdY3DO6ZiKe09k8z/u85+15T8i4c2xSraiRrBX24ih2YA3e4ileoJVSMjHbAAFT403tTtdgrbYbF3AcG5f1jK+YxbXFpYX5oYFhEzMNMVVvGh4c0mr/OIkb2OrveIfzA0U86i5VyojQav84gFvYnIu+4xXeoMQe7MMQtuDmUpU+R8R8iWFc7jO/x5XEdLAYRaGqqpHgNCaxKU95KaV0rsThHBi00AjxIKmcnekFNVVvLtRqa+52up0CtzGIekQcLHAE63ODl4npSjKRzTAx29DudiQe4nWmN2CsWBHam0K0UqpWR5eSIuIr5vvYbYXfV5VWO5eFtKy2++iiwIc+YmclrYsoVjWICJVqHXb20e8KzOmtDQ4F44F79eavqql6U/TOOA5l+huelYnn0dt5HSNoYjGFp/fGr3Xz+CXGsjaSGzzDXBl8wXXswii2436Ix3LiIfbhhN73ho/Zs1BCSulJRDTyC6O58Ey+K/EJFztL3bmyGBCn9l/9Y/L/gtVx/yd+Akefkiz2xrqJAAAAAElFTkSuQmCC',
                         'name': shopUrl, 'street': False, 'street2': False, 'city': False, 'state_id': False,
@@ -516,8 +545,10 @@ class ShopifyApp(http.Controller):
                         'vat': False, 'company_registry': False, 'parent_id': False}
                 companyShop = companyModel.sudo().create(vals);
                 companyId = companyShop.id
+                # create User ID
                 # create user for the company
                 user = http.request.env['res.users']
+                #                if request.env["res.users"].sudo().search([("login", "=", qcontext.get("login"))]):
 
                 userId = user.sudo().search([("login", "=", shopUrlemail)])
                 if not userId:
@@ -539,135 +570,83 @@ class ShopifyApp(http.Controller):
                     shopify.ShopifyResource.activate_session(shopify_session)
                     scrpt = shopify.ScriptTag(
                         dict(event='onload',
-                             src="https://c90bcfbe8e36.ngrok.io/shopify_app/static/src/js/shopify.js")).save()
+                             src="https://44ca288ecea5.ngrok.io/shopify_app/static/src/js/shopify.js")).save()
 
                     # order create webhook
-                    # orders / cancelled, orders / create, orders / fulfilled, orders / paid, orders / partially_fulfilled, orders / updated
                     weekhooks_response = shopify.Webhook(dict(topic="orders/create",
-                                                              address="https://c90bcfbe8e36.ngrok.io/shopify_app/order_create",
-                                                              format="json")
-                                                         ).save()
-
-                    weekhooks_response = shopify.Webhook(dict(topic="orders/updated",
-                                                              address="https://c90bcfbe8e36.ngrok.io/shopify_app/order_update",
-                                                              format="json")
-                                                         ).save()
-
-                    weekhooks_response = shopify.Webhook(dict(topic="orders/delete",
-                                                              address="https://c90bcfbe8e36.ngrok.io/shopify_app/order_delete",
-                                                              format="json")
-                                                         ).save()
-
-                    # checkout
-
-                    weekhooks_response = shopify.Webhook(dict(topic="checkouts/create",
-                                                              address="https://c90bcfbe8e36.ngrok.io/shopify_app/checkouts_create",
-                                                              format="json")
-                                                         ).save()
-                    weekhooks_response = shopify.Webhook(dict(topic="checkouts/update",
-                                                              address="https://c90bcfbe8e36.ngrok.io/shopify_app/checkouts_update",
-                                                              format="json")
-                                                         ).save()
-                    weekhooks_response = shopify.Webhook(dict(topic="checkouts/delete",
-                                                              address="https://c90bcfbe8e36.ngrok.io/shopify_app/checkouts_delete",
-                                                              format="json")
-                                                         ).save()
+                                                              address="https://44ca288ecea5.ngrok.io/shopify_app/order_create",
+                                                              format="json")).save()
                     # uninstall app webhook
                     weekhooks_uninstall_response = shopify.Webhook(dict(topic="app/uninstalled",
-                                                                        address="https://c90bcfbe8e36.ngrok.io/shopify_app/app_uninstalled",
+                                                                        address="https://44ca288ecea5.ngrok.io/shopify_app/app_uninstalled",
                                                                         format="json")).save()
+                    x = 1
             else:
-                # never run into this block of code,log for further usage
+                # never run into this block of code
+                user = http.request.env['res.users']
+                companyId = company.id
+                userId = user.sudo().search([("login", "=", shopUrlemail)])
+                if not userId:
+                    vals = {'is_published': False, 'company_ids': [[6, False, [companyId]]], 'company_id': companyId,
+                            'active': True,
+                            'lang': 'en_US', 'tz': 'Europe/Brussels', 'notification_type': 'email',
+                            'odoobot_state': 'not_initialized', 'image_1920': False, '__last_update': False,
+                            'name': shopUrl, 'email': shopUrlemail, 'login': shopUrlemail,
+                            'password': 'token', 'action_id': False, 'alias_id': False, 'alias_contact': False,
+                            'signature': '<p><br></p>', 'sign_signature': False, 'sign_initials': False,
+                            'livechat_username': False, 'groups_id': [(6, 0,
+                                                                       [1, 40, 31])]};
+                    createdUser = user.sudo().create(vals);
+                    createdUserId = createdUser.id
+                    # db = http.request.env.cr.dbname;
+                    # uid = http.request.httprequest.session.authenticate(db, shopUrlemail, "token")
+                    http.request.httprequest.session.shopify_token = token
+                    http.request.httprequest.session.shopify_email = shopUrlemail
+
+                    shopify.ShopifyResource.activate_session(shopify_session)
+                    scrpt = shopify.ScriptTag(
+                        dict(event='onload',
+                             src="https://44ca288ecea5.ngrok.io/shopify_app/static/src/js/shopify.js")).save()
+
+                    weekhooks_response = shopify.Webhook(dict(topic="orders/create",
+                                                              address="https://44ca288ecea5.ngrok.io/shopify_app/order_create",
+                                                              format="json")).save()
+
+                    response = shopify.Order.find_first(source_name="web");
+
+                    x = 1
+
+
+        else:
+            organizationId = organization.id
+
+            firstStoredToken = organization.code
+            organization.write({'code': token})
+            user = http.request.env['res.users']
+
+            shopUrlemail = shop_url.split('.')[0] + '@gmail.com'
+            user = user.sudo().search([("login", "=", shopUrlemail)])
+
+            shopUrlemail = shop_url.split('.')[0] + '@gmail.com'
+            http.request.httprequest.session.shopify_email = shopUrlemail
+
+            if user:
+                db = http.request.env.cr.dbname;
+                uid = http.request.httprequest.session.authenticate(db, shopUrlemail, 'token')
+                http.request.httprequest.session.shopify_token = token
+                shopify.ShopifyResource.activate_session(shopify_session)
+                scrpt = shopify.ScriptTag(
+                    dict(event='onload',
+                         src="https://44ca288ecea5.ngrok.io/shopify_app/static/src/js/shopify.js")).save()
+
+                weekhooks_response = shopify.Webhook(dict(topic="orders/create",
+                                                          address="https://44ca288ecea5.ngrok.io/shopify_app/order_create",
+                                                          format="json")).save()
+
+                response = shopify.Order.find_first(source_name="web");
+
                 x = 1
-        #authenticate user and route to home
-        user = http.request.env['res.users']
 
-        shopUrlemail = shop_url.split('.')[0] + '@gmail.com'
-        user = user.sudo().search([("login", "=", shopUrlemail)])
+        redirect = werkzeug.utils.redirect('/shopify_app/home')
 
-        shopUrlemail = shop_url.split('.')[0] + '@gmail.com'
-        http.request.httprequest.session.shopify_email = shopUrlemail
-
-        shopify.ShopifyResource.activate_session(shopify_session)
-        weekhooks = shopify.Webhook.find()
-
-        #todo : remove
-        products = shopify.Product.find(page=2 , limit= 1)
-        productsp1 = shopify.Product.find(page=1 , limit= 1)
-
-        checkout = shopify.Checkout.find();
-        checkoutc = shopify.Checkout(prefix_options='count').find();
-        # checkoutc = shopify.Checkout(query_options={'cou
-        # nt': ''}).find();
-        checkoutc = shopify.Checkout.get('count')
-        checkoutsx = shopify.Checkout.find(updated_at_min='2020-06-19')
-
-        x=1
-        if not weekhooks:
-            # order create webhook
-            # orders / cancelled, orders / create, orders / fulfilled, orders / paid, orders / partially_fulfilled, orders / updated
-            weekhooks_response = shopify.Webhook(dict(topic="orders/create",
-                                                      address="https://c90bcfbe8e36.ngrok.io/shopify_app/order_create",
-                                                      format="json")
-                                                 ).save()
-
-            weekhooks_response = shopify.Webhook(dict(topic="orders/updated",
-                                                      address="https://c90bcfbe8e36.ngrok.io/shopify_app/order_update",
-                                                      format="json")
-                                                 ).save()
-
-            weekhooks_response = shopify.Webhook(dict(topic="orders/delete",
-                                                      address="https://c90bcfbe8e36.ngrok.io/shopify_app/order_delete",
-                                                      format="json")
-                                                 ).save()
-
-            # checkout
-
-            weekhooks_response = shopify.Webhook(dict(topic="checkouts/create",
-                                                      address="https://c90bcfbe8e36.ngrok.io/shopify_app/checkouts_create",
-                                                      format="json")
-                                                 ).save()
-            weekhooks_response = shopify.Webhook(dict(topic="checkouts/update",
-                                                      address="https://c90bcfbe8e36.ngrok.io/shopify_app/checkouts_update",
-                                                      format="json")
-                                                 ).save()
-            weekhooks_response = shopify.Webhook(dict(topic="checkouts/delete",
-                                                      address="https://c90bcfbe8e36.ngrok.io/shopify_app/checkouts_delete",
-                                                      format="json")
-                                                 ).save()
-            # uninstall app webhook
-            # weekhooks_uninstall_response = shopify.Webhook(dict(topic="app/uninstalled",
-            #                                                     address="https://c90bcfbe8e36.ngrok.io/shopify_app/app_uninstalled",
-            #                                                     format="json")).save()
-
-
-        if user:
-            db = http.request.env.cr.dbname;
-            uid = http.request.httprequest.session.authenticate(db, shopUrlemail, 'token')
-            http.request.httprequest.session.shopify_token = token
-            redirect = werkzeug.utils.redirect('https://c90bcfbe8e36.ngrok.io/shopify_app/home')
-            return redirect
-        # self.authenticate_route_home(token=token, shop_url=shop_url)
-
-    def authenticate_route_home(self, **kwargs):
-        shop_url = kwargs['shop_url']
-        token = kwargs['token']
-
-        user = http.request.env['res.users']
-
-        shopUrlemail = shop_url.split('.')[0] + '@gmail.com'
-        user = user.sudo().search([("login", "=", shopUrlemail)])
-
-        shopUrlemail = shop_url.split('.')[0] + '@gmail.com'
-        http.request.httprequest.session.shopify_email = shopUrlemail
-
-        if user:
-            db = http.request.env.cr.dbname;
-            uid = http.request.httprequest.session.authenticate(db, shopUrlemail, 'token')
-            http.request.httprequest.session.shopify_token = token
-            redirect = werkzeug.utils.redirect('https://c90bcfbe8e36.ngrok.io/shopify_app/home')
-            return redirect
-        else :
-            x = 1
-            #log error
-
+        return redirect

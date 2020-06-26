@@ -1,4 +1,5 @@
-from odoo import fields, models
+from odoo import fields, models, _
+from odoo.exceptions import UserError
 
 
 class ConfigPhoneNumber(models.Model):
@@ -11,6 +12,7 @@ class ConfigPhoneNumber(models.Model):
     agent_role = fields.Char(string='Agent Role')
     agent_avatar = fields.Binary()
     url_image = fields.Char('URL for avatar')
+
     def _default_note(self):
         note = 'Example - 8:30AM is 0830 and 8:30PM is 2030. By default, hours are set from 0000 to 2359 which means ' \
                'chat agent is active all the time. To disable the chat agent for an entire day, set 0000 to 0000 '
@@ -18,26 +20,12 @@ class ConfigPhoneNumber(models.Model):
         return note
 
     default_note = fields.Text(string='Note', default=_default_note)
-    status = fields.Char()
-    # Monday
-    start_monday = fields.Char()
-    end_monday = fields.Char()
-    # Tuesday
-    start_tuesday = fields.Char()
-    end_tuesday = fields.Char()
-    # Wednesday
-    start_wednesday = fields.Char()
-    end_wednesday = fields.Char()
-    # Thursday
-    start_thursday = fields.Char()
-    end_thursday = fields.Char()
-    # Friday
-    start_friday = fields.Char()
-    end_friday = fields.Char()
-    # Saturday
-    start_saturday = fields.Char()
-    end_saturday = fields.Char()
-    # Sunday
-    start_sunday = fields.Char()
-    end_sunday = fields.Char()
 
+    def confirm(self):
+        for rec in self:
+            if not rec.phone_number.isnumeric():
+                raise UserError(_('Số điện thoại không hợp lệ.'))
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'button_template_client_action',
+        }

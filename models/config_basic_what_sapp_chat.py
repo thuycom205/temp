@@ -4,6 +4,7 @@ from odoo import models, fields
 class ConfigBasicWhatsApp(models.Model):
     _name = 'config.basic.whats.app'
 
+    user_id = fields.Many2one('res.users')
     # Button Text & Design
     config_phone_number = fields.One2many('config.phone.number', 'config_basic_id')
     select_colour = fields.Selection([('single', 'Single colour'),
@@ -21,15 +22,16 @@ class ConfigBasicWhatsApp(models.Model):
     # Callout Car
     show_callout_button = fields.Boolean()
     callout_car_text = fields.Char(string='')
-    callout_card_delay = fields.Integer(string='Callout card delay')
+    callout_card_delay = fields.Char(string='Callout card delay')
 
     # Greetings Widget
     select_colour_widget = fields.Selection([('single', 'Single colour'),
                                              ('gradient', 'Gradient of two colours')])
-    single_colour_widget = fields.Boolean(string='Single colour')
-    gradient_colours_widget = fields.Boolean(string='Grandient of two colours')
+
     background_colour_1_widget = fields.Char(string='Background colour 1')
     background_colour_2_widget = fields.Char(string='Background colour 2')
+    heading_text_colour = fields.Char(string='Heading text colour')
+    description_text_colour = fields.Char(string='Description text colour')
     title_widget = fields.Char(string='Title')
     help_text = fields.Char(string='Help Text')
     randomise_order = fields.Boolean(string='Randomise order')
@@ -78,3 +80,13 @@ class ConfigBasicWhatsApp(models.Model):
             'tag': 'button_template_client_action',
             'target': 'new',
         }
+
+
+class InheritResUsers(models.Model):
+    _inherit = 'res.users'
+    config_basic_id = fields.Many2one('config.basic.whats.app')
+    config_time_hours = fields.Many2one('config.time.phone.number')
+    config_button_color = fields.Many2one('config.button.text.design')
+    config_button_display_position_id = fields.Many2one('config.button.display.position')
+    config_callout_card_id = fields.Many2one('config.callout.card')
+    config_pages_to_display_id = fields.Many2one('config.page.to.display')

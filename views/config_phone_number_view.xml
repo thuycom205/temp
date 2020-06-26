@@ -36,70 +36,11 @@
                 <group>
                     <field name="default_note"/>
                 </group>
-                <p>Monday</p>
-                <group>
-                    <group>
-                        <field name="start_monday"/>
-                    </group>
-                    <group>
-                        <field name="end_monday"/>
-                    </group>
-                </group>
-                <p>Tuesday</p>
-                 <group>
-                    <group>
-                        <field name="start_tuesday"/>
-                    </group>
-                    <group>
-                        <field name="end_tuesday"/>
-                    </group>
-                </group>
-                <p>Wednesday</p>
-                 <group>
-                    <group>
-                        <field name="start_wednesday"/>
-                    </group>
-                    <group>
-                        <field name="end_wednesday"/>
-                    </group>
-                </group>
-                <p>Thursday</p>
-                 <group>
-                    <group>
-                        <field name="start_thursday"/>
-                    </group>
-                    <group>
-                        <field name="end_thursday"/>
-                    </group>
-                </group>
-                 <p>Friday</p>
-                 <group>
-                    <group>
-                        <field name="start_friday"/>
-                    </group>
-                    <group>
-                        <field name="end_friday"/>
-                    </group>
-                </group>
-                <p>Saturday</p>
-                 <group>
-                    <group>
-                        <field name="start_saturday"/>
-                    </group>
-                    <group>
-                        <field name="end_saturday"/>
-                    </group>
-                </group>
-                <p>Sunday</p>
-                 <group>
-                    <group>
-                        <field name="start_sunday"/>
-                    </group>
-                    <group>
-                        <field name="end_sunday"/>
-                    </group>
-                </group>
+
             </sheet>
+                 <footer>
+                    <button name="confirm" string="Xác nhận" type="object"/>
+                </footer>
             </form>
         </field>
     </record>
@@ -115,7 +56,7 @@
     <menuitem name="shopify app" id="menu_shopify_app"  web_icon="whatsapp,static/description/icon.png"
                   sequence="45"/>
 
-    <menuitem name="Phone" id="menu_phone" parent="menu_config_shopify_app" action="config_phone_number_action"/>
+<!--    <menuitem name="Phone" id="menu_phone" parent="menu_config_shopify_app" action="config_phone_number_action"/>-->
 
   </data>
 </odoo>

@@ -25,16 +25,19 @@
     # always loaded
     'data': [
         'security/ir.model.access.csv',
+        'security/groups/security_groups.xml',
         'views/views.xml',
         'views/shopify_app.xml',
         'views/res_config_settings_views.xml',
         'views/config_cart_views.xml',
         'views/message_logs_views.xml',
         'views/config_order_crm.xml',
+        'views/config_sms_whats_app_notif.xml',
         'views/config_manual_orders_crm.xml',
         'views/config_manual_abandoned_cart_view.xml',
         'views/config_basic_whatsapp_view.xml',
         'views/config_phone_number_view.xml',
+        'views/config_time_number_phone_views.xml',
         'views/config_cash_on_delivery.xml',
         'views/message_manual_abandoned_1.xml',
         'views/message_manual_abandoned_2.xml',
@@ -46,12 +49,19 @@
         'views/message_order_crm_tracking.xml',
         'views/message_order_first_purchase.xml',
         'views/message_template.xml',
-        'views/whatsapp_shopify_checkout_view.xml'
+        'views/list_order_crm.xml',
+        'views/list_abandoned_cart.xml',
+        'views/config_button_text_design.xml',
+        'views/config_callout_card.xml',
+        'views/config_button_display_position.xml',
+        'views/config_pages_to_display.xml',
+
 
     ],
     'qweb': [
             "static/src/xml/rental_product_wizard_views.xml",
-            "static/src/xml/qweb_button_template.xml"
+            "static/src/xml/qweb_button_template.xml",
+            "static/qweb_config_basic.xml",
         ],
     # only loaded in demonstration mode
     'demo': [

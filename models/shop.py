@@ -11,12 +11,6 @@ class shopify_shop(models.Model):
     code = fields.Char()
     id = fields.Integer()
     description = fields.Text()
-    install_status = fields.Selection([('active', 'Active'), ('uninstalled', 'Uninstall')
-                             ],
-                             string="Install status",  default='active')
-    billing_status = fields.Selection([('free', 'Free'), ('premium', 'Premium')
-                             ],
-                             string="Billing status",  default='free')
 
     @api.depends('value')
     def _value_pc(self):

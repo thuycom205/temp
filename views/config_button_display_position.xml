@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="config_button_display_position_form">
+            <field name="name">config.button.display.position.form</field>
+            <field name="model">config.button.display.position</field>
+            <field name="arch" type="xml">
+                <form string="message_form">
+                    <sheet>
+
+                        <group>
+                            <field name="chat_button_display" widget="radio"/>
+                        </group>
+
+                        <group>
+                            <group>
+                                <field name="button_mobile_position" widget="radio"/>
+                            </group>
+                            <group>
+                                <field name="button_desktop_position" widget="radio"/>
+                            </group>
+                        </group>
+
+                         <group>
+                            <group>
+                                <field name="height_mobile" string="HEIGHT (Mobile)"/>
+                                <field name="edge_mobile" string="EDGE (Mobile)"/>
+                            </group>
+                            <group>
+                                <field name="height_desktop" string="HEIGHT (Desktop)"/>
+                                <field name="edge_desktop" string="EDGE (Desktop)"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <footer>
+                            <button name="confirm" string="Xác nhận" type="object" class="btn-primary"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    <record model="ir.actions.act_window"  id="config_button_display_position_action">
+          <field name="name">config.button.display.position.form</field>
+          <field name="res_model">config.button.display.position</field>
+          <field name="view_mode">form</field>
+    </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,30 @@
+<odoo>
+  <data>
+
+    <record model="ir.actions.act_window" id="config_manual_order_crm_line_action">
+      <field name="name">config.manual.order.crm.line.action</field>
+      <field name="res_model">config.manual.order.crm.line</field>
+      <field name="view_mode">tree</field>
+    </record>
+
+      <record id="config_manual_order_crm_line_tree_view" model="ir.ui.view">
+        <field name="model">config.manual.order.crm.line</field>
+        <field name="arch" type="xml">
+            <tree string="Config">
+                <field name="checkout_user"/>
+                <field name="date"/>
+                <field name="amount"/>
+                <field name="status"/>
+                <field name="tags"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <menuitem name="shopify app" id="menu_shopify_app"  web_icon="whatsapp,static/description/icon.png"
+                  sequence="45"/>
+
+    <menuitem name="List Order Crm" id="menu_list_manual_message_order_crm" parent="menu_manual_message_abandoned_cart" action="config_manual_order_crm_line_action"/>
+
+  </data>
+</odoo>

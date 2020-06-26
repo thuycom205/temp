@@ -89,10 +89,10 @@
   <record id="action_button_view" model="ir.actions.client">
     <field name="name">Button Template</field>
     <field name="res_model">config.button.template</field>
-    <field name="tag">whatsapp.client_action_button</field>
+    <field name="tag">button_template_client_action</field>
   </record>
 
-  <menuitem name="Button Cart" id="menu_config_button" parent="menu_config_shopify_app" action="action_button_view"/>
+  <menuitem name="Config Basic Template" id="menu_config_button" parent="menu_config_shopify_app" action="action_button_view"/>
 
 
 

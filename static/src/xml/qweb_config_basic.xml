@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <div t-name="ConfigBasic">
+        <html>
+            <head>
+                <title>Config Basic</title>
+                <link rel="stylesheet" href="https://unpkg.com/@shopify/polaris@4.25.0/styles.min.css"/>
+            </head>
+            <body>
+                <div class='Polaris-Card'>
+                    <div class='Polaris-Card__Section'>
+                    </div>
+                </div>
+            </body>
+        </html>
+    </div>
+</templates>
