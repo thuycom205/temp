@@ -42,6 +42,8 @@ const ListPage = ({ title, resourceName, fetchUrl, deleteUrl, createUrl, editUrl
     // Improved logic to use shopxName or fall back to localStorage
     const initialShop = shopxName || localStorage.getItem('shop') || '';
     const [shop, setShop] = useState(initialShop);
+
+    const [host,setHost] = useState('');
     const actionHandlers = getEntityActionHandlers(entity, navigate, shop, token);
 
     const [items, setItems] = useState([]);
@@ -56,7 +58,32 @@ const ListPage = ({ title, resourceName, fetchUrl, deleteUrl, createUrl, editUrl
     const [toastError, setToastError] = useState(false);
     const [bulkActions, setBulkActions] = useState([]);
     const [isLoading, setIsLoading] = useState(false); // State to track loading
+    const base64Decode = (encodedString) => {
+        try {
+            return atob(encodedString);
+        } catch (e) {
+            console.error("Failed to decode base64 string:", e);
+            return null;
+        }
+    };
+    useEffect(() => {
+        //update the shop name
+        const url = window.location.href;
+        const match = url.match(/hostz\/([^\/]+)/);
+        if (match) {
+            const encodedString = match[1];
+            console.log("Encoded String:", encodedString);
+            const decodedHost = base64Decode(encodedString);
+            console.log('decodedHost ' + decodedHost);
+            setHost(decodedHost);
+            const parts = decodedHost.split('/');
+            const storeName = parts[parts.length - 1];
+            setShop(storeName + ".myshopify.com");
+        } else {
+            console.log("Encoded String not found.");
+        }
 
+    }, []);
     useEffect(() => {
         const handleDeleteSelected = async () => {
             console.log('Selected items to delete:', selectedItems);
@@ -89,24 +116,6 @@ const ListPage = ({ title, resourceName, fetchUrl, deleteUrl, createUrl, editUrl
     }, [deleteUrl, selectedItems, shop, items]);
 
 
-    // useEffect(() => {
-    //     const loadBulkActions = async () => {
-    //         try {
-    //             const actionsModule = await import(`./bulkActions/${entity}Actions`);
-    //             const entityBulkActions = actionsModule.getBulkActions(selectedItems, setItems, navigate, items);
-    //             // Ensure the default Delete action is always included
-    //             setBulkActions(previousActions => [
-    //                 ...previousActions.filter(action => action.content === 'Delete'),
-    //                 ...entityBulkActions
-    //             ]);
-    //         } catch (error) {
-    //             console.error(`Failed to load bulk actions for entity ${entity}:`, error);
-    //         }
-    //     };
-    //
-    //     loadBulkActions();
-    // }, [entity, selectedItems, setItems, navigate]);
-
     useEffect(() => {
         // Define default actions that apply to all entities
         const defaultBulkActions = [
@@ -135,11 +144,6 @@ const ListPage = ({ title, resourceName, fetchUrl, deleteUrl, createUrl, editUrl
             }
         ];
 
-        // Get entity-specific actions
-        // const entitySpecificActions = getBulkActions(entity).map(action => ({
-        //     content: action.content,
-        //     onAction: () => action.handler(selectedItems, setItems, items)
-        // }));
         const entitySpecificActions = getBulkActions(entity).map(action => ({
             content: action.content,
             helpText: action.helpText? action.helpText: '',
@@ -152,6 +156,20 @@ const ListPage = ({ title, resourceName, fetchUrl, deleteUrl, createUrl, editUrl
         const combinedBulkActions = [...defaultBulkActions, ...entitySpecificActions];
         setBulkActions(combinedBulkActions);
 
+
+        //fixit:fao
+        if (entity == 'whatsapp_ao_message' || entity == 'whatsapp_order_message') {
+            const whatsappBulkActions = [
+                {
+                    content: 'Send Message',
+                    onAction: async () => {
+
+                    }
+                }
+            ];
+        }
+
+        //fixit:fao
         // Any other setup logic for page load
     }, [entity, selectedItems, items, deleteUrl]);
 
@@ -187,87 +205,106 @@ const ListPage = ({ title, resourceName, fetchUrl, deleteUrl, createUrl, editUrl
     const handleSelectionChange = useCallback((items) => {
         setSelectedItems(items);
     }, []);
-    useEffect(() => {
-        const fetchData = async () => {
-           // alert(shop);
-            setIsLoading(true); // Start loading
-
-            const params = {
-                shop_name: shop,
-                page: currentPage,
-                items_per_page: itemsPerPage,
-            };
-
-            try {
-                const response = await fetch(fetchUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(params),
-                });
-
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-
-                const data = await response.json();
-                setItems(data.items);
-                setTotalItemCount(data.totalItemCount);
-            } catch (error) {
-                console.error('Failed to fetch items:', error);
-            } finally {
-                setIsLoading(false); // End loading
-            }
+    const fetchData = useCallback(async (storezName) => {
+        setIsLoading(true);
+        const params = {
+            shop_name: storezName,
+            page: currentPage,
+            items_per_page: itemsPerPage,
         };
-        const fetchDataLiveOrder = async () => {
-            // alert(shop);
-            setIsLoading(true); // Start loading
 
-            const params = {
-                shop_name: shop
-            };
+        try {
+            const response = await fetch(fetchUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(params),
+            });
 
-            try {
-                const fetChLiveOrder =`/api/af_kol/fetchOrder`;
-
-                const response = await fetch(fetChLiveOrder, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(params),
-                });
-
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-
-                const data = await response.json();
-
-            } catch (error) {
-                console.error('Failed to fetch items:', error);
-            } finally {
-                setIsLoading(false); // End loading
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
-        };
-        fetchData();
 
-        if (entity === 'affiliate_order') {
-            fetchDataLiveOrder();
+            const data = await response.json();
+            setItems(data.items);
+            setTotalItemCount(data.totalItemCount);
+        } catch (error) {
+            console.error('Failed to fetch items:', error);
+        } finally {
+            setIsLoading(false);
         }
-    }, [currentPage, itemsPerPage, fetchUrl,location]);
+    }, [currentPage, itemsPerPage, fetchUrl]);
+    const fetchDataLiveOrder = useCallback(async (storezName) => {
+        setIsLoading(true);
+
+        try {
+            const params = {
+                shop_name: storezName,
+            };
+            const fetChLiveOrder = `/api/${entity}/fetchListCO`;
+
+            const response = await fetch(fetChLiveOrder, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(params),
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+        } catch (error) {
+            console.error('Failed to fetch items:', error);
+        } finally {
+            setIsLoading(false);
+        }
+    }, [entity]);
+    useEffect(() => {
+        const initializeDataFetch = async () => {
+            let storezName;
+            const url = window.location.href;
+            const match = url.match(/hostz\/([^\/]+)/);
+
+            if (match) {
+                const encodedString = match[1];
+                const decodedHost = base64Decode(encodedString);
+                const parts = decodedHost.split('/');
+                const storeName = parts[parts.length - 1];
+                setShop(storeName + '.myshopify.com');
+                storezName = storeName + '.myshopify.com';
+            }
+
+            await fetchDataLiveOrder(storezName);
+            await fetchData(storezName);
+        };
+
+        initializeDataFetch();
+    }, [currentPage, itemsPerPage, fetchUrl, location,entity]);
+
 
     const handleCreateNew = useCallback(() => {
-        // Use the createUrl to navigate to the creation page
-        navigate(createUrl +`?editId=${0}`);
-    }, [createUrl]);
+        const url = window.location.href;
+        const match = url.match(/hostz\/([^\/]+)/);
+        let hostPart = '';
+        if (match) {
+            hostPart = `hostz/${match[1]}/`;
+        }
+        navigate(`/${hostPart}${createUrl}?editId=0`);
+    }, [createUrl, navigate]);
 
     const handleEdit = useCallback((id) => {
-        // Use the editUrl to navigate to the edit page
-        navigate(editUrl + `?editId=${id}` + `&shop_name=${shop}`) ;
-
-    }, [editUrl]);
+        const url = window.location.href;
+        const match = url.match(/hostz\/([^\/]+)/);
+        let hostPart = '';
+        if (match) {
+            hostPart = `hostz/${match[1]}/`;
+        }
+        navigate(`/${hostPart}${editUrl}?editId=${id}&shop_name=${shop}`);
+    }, [editUrl, navigate, shop]);
 
     const handleAssignProduct =useCallback((id,name) => {
         console.log(id);
@@ -286,69 +323,6 @@ const ListPage = ({ title, resourceName, fetchUrl, deleteUrl, createUrl, editUrl
 
     },[ selectedItems]);
 
-    // ... other handlers ...
-
-    // const renderContent = () => {
-    //     if (items.length === 0 && totalItemCount === 0) {
-    //         return (
-    //             <EmptyState
-    //                 heading={`No ${resourceName.plural.toLowerCase()} found`}
-    //                 action={{
-    //                     content: `Create ${resourceName.singular}`,
-    //                     onAction: handleCreateNew,
-    //                 }}
-    //             >
-    //                 <p>Click the button to start creating a new item.</p>
-    //             </EmptyState>
-    //         );
-    //     } else {
-    //         return (
-    //             <ResourceList
-    //                 resourceName={resourceName}
-    //                 items={items}
-    //                 selectedItems={selectedItems}
-    //                 onSelectionChange={handleSelectionChange}
-    //                 bulkActions={bulkActions}
-    //
-    //                 renderItem={(item) => {
-    //                     const { id, title } = item;
-    //
-    //                     // const shortcutActions = getShortcutActions(entity, item, {
-    //                     //     handleAssignProduct: handleAssignProduct,
-    //                     //     handleEdit: handleEdit,
-    //                     //     // Add other handlers here as needed
-    //                     //     handleShowQuiz: (id) => {
-    //                     //         console.log("Showing quiz for question ID:", id);
-    //                     //         // Implement the logic to show the quiz here
-    //                     //     },
-    //                     // });
-    //                     const shortcutActions = getShortcutActions(editId,entity, item, actionHandlers, schema.tree.actions);
-    //
-    //                     return (
-    //                         <ResourceItem
-    //                             id={id.toString()}
-    //                             accessibilityLabel={`Edit ${title}`}
-    //                             name={title}
-    //                             persistActions
-    //                             shortcutActions={shortcutActions}
-    //
-    //                             // shortcutActions={[
-    //                             //
-    //                             //     { content: 'Edit', onAction:() => {
-    //                             //     actionHandlers.handleEdit(id)      }
-    //                             //     }
-    //                             // ]}
-    //                         >
-    //                             {/*<TextStyle variation="strong">{title}</TextStyle>*/}
-    //                             {renderAdditionalFields(item)}
-    //
-    //                         </ResourceItem>
-    //                     );
-    //                 }}
-    //             />
-    //         );
-    //     }
-    // };
 
     const renderContent = useCallback(() => {
         if (items.length === 0 && totalItemCount === 0) {
@@ -400,10 +374,7 @@ const ListPage = ({ title, resourceName, fetchUrl, deleteUrl, createUrl, editUrl
     return (
             <Page
                 title={title}
-                primaryAction={{
-                    content: `Create ${resourceName.singular}`,
-                    onAction: handleCreateNew,
-                }}
+
                 helpText={helpText}
             >
                 <Stack alignment="center" spacing="tight">

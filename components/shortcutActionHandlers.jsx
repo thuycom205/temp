@@ -42,6 +42,46 @@ export const getShortcutActions = (id,entity, item, actionHandlers, schemaAction
     switch (entity) {
         case 'question':
             return questionShortcutActions(item, actionHandlers);
+        //fixit:fao
+        case 'whatsapp_ao_message':
+
+            return [
+                {
+                    content: 'Send Message',
+                    onAction: () => {
+                        console.log(item);
+                        const phoneNumber = item.customer_phone; // Replace with the actual phone number, in international format without the '+' sign
+                        const message = item.message_content; // Replace with the actual message to send
+
+                        // Construct the WhatsApp URL
+                        const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+
+                        // Open the WhatsApp URL
+                        window.open(whatsappUrl, '_blank');
+                    },
+                }
+
+            ];
+        case 'whatsapp_order_message':
+
+            return [
+                {
+                    content: 'Send Message',
+                    onAction: () => {
+                        console.log(item);
+                        const phoneNumber = item.customer_phone; // Replace with the actual phone number, in international format without the '+' sign
+                        const message = item.message_content; // Replace with the actual message to send
+
+                        // Construct the WhatsApp URL
+                        const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+
+                        // Open the WhatsApp URL
+                        window.open(whatsappUrl, '_blank');
+                    },
+                }
+
+            ];
+        //end fixit:fao
         default:
             return defaultShortcutActions(item, actionHandlers);
     }

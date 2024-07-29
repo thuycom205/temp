@@ -30,7 +30,13 @@ export const getEntityActionHandlers = (entity, navigate, shopxName, token) => {
         default:
             return {
                 handleEdit: (id) => {
-                    const editUrl = `/page_form/${entity}?editId=${id}&shop_name=${shopxName}`;
+                    const url = window.location.href;
+                    const match = url.match(/hostz\/([^\/]+)/);
+                    let hostPart = '';
+                    if (match) {
+                        hostPart = `hostz/${match[1]}/`;
+                    }
+                    const editUrl = `/page_form/${entity}/${hostPart}editId/${id}/shop_name/${shopxName}`;
                     navigate(editUrl);
                 }
                 // Default actions for other entities
