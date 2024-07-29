@@ -1,5 +1,5 @@
 import React, { useState, useCallback,useEffect } from 'react';
-import { Frame, Page,Select, Layout, Card, FormLayout, TextField, Button,Toast,IndexTable,useIndexResourceState,Icon,TextStyle } from '@shopify/polaris';
+import { Frame,Navigation, Page,Select, Layout, Card, FormLayout, Checkbox,RadioButton,TextField, Button,Toast,IndexTable,useIndexResourceState,Icon,TextStyle,DisplayText } from '@shopify/polaris';
 import {useNavigate, useParams} from 'react-router-dom';
 import { ResourcePicker } from "@shopify/app-bridge-react";
 import MResourcePicker from './MResourcePicker';
@@ -14,8 +14,16 @@ import { loadEntityComponent } from './components/Form/ComponentRegistry';
 import MRelatedTable from './components/Form/MRelatedTable';
 import EditableTable from './components/Form/EditableTable';
 import {Tooltip , ButtonGroup, Stack} from "@shopify/polaris";
+import {useTranslation} from "react-i18next";
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+import GoogleCategorySelector from './components/Form/GoogleCategorySelector'; // Import the new component
+import GoogleCategorySelectorWithSelectize from './components/Form/GoogleCategorySelectorWithSelectize'; // Import the new component
 
-const DynamicFormComponent = ({ formSchema, onFormSubmit }) => {
+const DynamicFormComponent = ({ formSchema, onFormSubmit,entityTitle }) => {
+    const { t } = useTranslation();
+    const [host,setHost] = useState('');
+    const [copiedText, setCopiedText] = useState('');
+
     const { entity } = useParams();
     const [EntitySpecificComponent, setEntitySpecificComponent] = useState(null);
 
@@ -29,6 +37,27 @@ const DynamicFormComponent = ({ formSchema, onFormSubmit }) => {
     // Function to dynamically import the action handler based on the button's name
     const [formVisibility, setFormVisibility] = useState({});
     const [loading, setLoading] = useState(false); // State to handle loading
+
+    const handleCopy = (text) => {
+        setCopiedText(text);
+        // Add any additional logic you want to handle after copying
+    };
+
+    const abandoned_actions = [
+        { label: 'Customer Name', code: '{{customer_name}}' },
+        { label: 'Order Total', code: '{{order_total}}' },
+        { label: 'Order Items', code: '{{order_items}}' },
+        { label: 'Coupon Code', code: '{{coupon_code}}' },
+        { label: 'Order Date', code: '{{order_date}}' }
+    ];
+    const base64Decode = (encodedString) => {
+        try {
+            return atob(encodedString);
+        } catch (e) {
+            console.error("Failed to decode base64 string:", e);
+            return null;
+        }
+    };
     useEffect(() => {
         // Dynamically load the component for the current entity
         loadEntityComponent(entity).then(ComponentModule => {
@@ -58,7 +87,8 @@ const DynamicFormComponent = ({ formSchema, onFormSubmit }) => {
             content: button.label,
             onAction: () => handleAction(button),
             helpText : button.helpText? button.helpText : '',
-            disabled: !isEnabled  // Disable action if not enabled
+            disabled: !isEnabled ,
+            key: index //// Disable action if not enabled
         };
     });
     const primaryAction = pageActions?.[0]; // First button as primary action
@@ -135,11 +165,7 @@ const DynamicFormComponent = ({ formSchema, onFormSubmit }) => {
             console.log(img); // Log the current item to the console
 
             console.log(type);
-            console.log('handler');
             console.log(item.id);
-            console.log('product image');
-            console.log('id');
-            console.log(productId);
             return {
                 collection_id: type === 'Collection' ? productId : undefined,
                 product_id: type === 'Product' ? productId: undefined,
@@ -236,45 +262,80 @@ const DynamicFormComponent = ({ formSchema, onFormSubmit }) => {
 
 
     useEffect(() => {
-            const urlParams = new URLSearchParams(window.location.search);
-            const newFetchedId = urlParams.get('editId') || '0';
-            setFetchedId(newFetchedId);
-        }, []);
+        const url = window.location.href;
+
+        // Extract and decode hostz
+        const hostzMatch = url.match(/hostz\/([^\/]+)/);
+        if (hostzMatch) {
+            const encodedString = hostzMatch[1];
+            const decodedHost = base64Decode(encodedString);
+            const parts = decodedHost.split('/');
+            const storeName = parts[parts.length - 1];
+            setShop(storeName + ".myshopify.com");
+        } else {
+            console.log("Encoded String not found.");
+        }
+
+        // Extract editId
+        const editIdMatch = url.match(/editId\/(\d+)/);
+        if (editIdMatch) {
+            setFetchedId(editIdMatch[1]);
+        } else {
+            setFetchedId('0');
+        }
+
+        // Extract shop_name
+        const shopNameMatch = url.match(/shop_name\/([^\/]+)/);
+        if (shopNameMatch) {
+            setShop(shopNameMatch[1]);
+        }
+    }, [entity]);
     const handleDataChange = useCallback((fieldName, newData) => {
         setFormData(prevData => ({ ...prevData, [fieldName]: newData }));
     }, []);
 
-useEffect(() => {
-    if (fetchedId !== '0') {
-        // const fetchUrl = new URL(`/api/${entity}/fetch`);
-        // fetchUrl.searchParams.append('id', fetchedId);
-        // fetchUrl.searchParams.append('shop_name', shopxName);
-        const fetchUrl = `/api/${entity}/fetch?id=${encodeURIComponent(fetchedId)}&shop_name=${encodeURIComponent(shop)}`;
+    useEffect(() => {
+        if (fetchedId !== '0' || entity === 'google_feed_setting' || entity === 'google_sync_setting') {
+            let fetchUrl = `/api/${entity}/fetch?id=${encodeURIComponent(fetchedId)}&shop_name=${encodeURIComponent(shop)}`;
 
-        const fetchData = async () => {
-            setLoading(true); // Start loading
+            if (entity === 'google_feed_setting' || entity === 'google_sync_setting') {
+                const session = new URLSearchParams(location.search).get("session");
+                const url = window.location.href;
+                const match = url.match(/hostz\/([^\/]+)/);
+                const encodedString = match[1];
+                const decodedHost = base64Decode(encodedString);
+                const parts = decodedHost.split('/');
+                const storeName = parts[parts.length - 1];
+                setShop(storeName + ".myshopify.com");
+                fetchUrl = `/api/${entity}/fetch_setting?shop_name=${encodeURIComponent(storeName)}&host=${encodedString}&session=${session}&shop=${encodeURIComponent(storeName)}`;
+            }
 
-            try {
-                const response = await fetch(fetchUrl, {
-                    method: 'GET',
-                    headers: { 'Content-Type': 'application/json' }
-                });
-                if (!response.ok) {
-                    throw new Error('Network response was not OK');
+            const fetchData = async () => {
+                setLoading(true);
+                try {
+                    const response = await fetch(fetchUrl, {
+                        method: 'GET',
+                        headers: { 'Content-Type': 'application/json' }
+                    });
+                    if (!response.ok) {
+                        throw new Error('Network response was not OK');
+                    }
+                    const data = await response.json();
+                    setFormData(data);
+                } catch (error) {
+                    console.error('Error:', error);
+                } finally {
+                    setLoading(false);
                 }
-                const data = await response.json();
-                setFormData(data); // Directly set the fetched data
+            };
+            fetchData();
+        }
 
-            } catch (error) {
-                console.error('Error:', error);
-            }
-            finally {
-                setLoading(false); // End loading
-            }
-        };
-        fetchData();
-    }
-}, [entity, fetchedId]);
+        if (fetchedId === '0' || fetchedId === 0) {
+            setFormData('');
+        }
+    }, [entity, fetchedId]);
+
 
 
 
@@ -337,7 +398,7 @@ useEffect(() => {
             // and the depend_by value equals "x"
             if (field.depend_by === fieldName && field.name === value) {
                 // Find the configuration for the field that has just changed
-               // const fieldConfigx = formSchema.fields.find(f => f.name === fieldName && f.options.some(option => option.value === value));
+                // const fieldConfigx = formSchema.fields.find(f => f.name === fieldName && f.options.some(option => option.value === value));
 
                 // Update visibility based on whether the field configuration exists and matches the criteria
                 newVisibility[field.name] = true;
@@ -383,9 +444,6 @@ useEffect(() => {
     };
 
     const validateRows = (tableData) => {
-
-        console.log('tableData');
-        console.log(tableData);
         let isValid = true;
         let errorMsg = "";
 
@@ -435,7 +493,7 @@ useEffect(() => {
                 return; // Skip validation if the field is not visible
             }
 
-            if (field.type === 'editableTable') {
+            if ((field.type === 'editableTable') && (formVisibility[field.name] != false)) {
                 let tableErrors = [];
                 if (!value) {
                     return;
@@ -467,16 +525,12 @@ useEffect(() => {
                     }
                 }
                 newErrors[field.name] = tableErrors;
-                //todo : it seems work with min sales and max sales only, need to add more logic for kol commision rule
-                //if it is collection or product , it should not run this logic
-                if (field.name === 'commission_tier' ) {
-                    const { isValid, errorMsg } = validateRows(formData[field.name]); // Assuming formData[field.name] contains the table data
-                    if (!isValid) {
-                        isFormValid = false;
-                        // Add the error message to the form errors
-                        newErrors[field.name] = errorMsg;
-                    }                }
-
+                // const { isValid, errorMsg } = validateRows(formData[field.name]); // Assuming formData[field.name] contains the table data
+                // if (!isValid) {
+                //     isFormValid = false;
+                //     // Add the error message to the form errors
+                //     newErrors[field.name] = errorMsg;
+                // }
 
                 //more logic for kol commision rule
             } else {
@@ -490,6 +544,11 @@ useEffect(() => {
 
         setErrors(newErrors);
 
+         if (!isFormValid) {
+             alert('form is not valid');
+             console.log(newErrors);
+             console.log(errors);
+         }
         if (isFormValid) {
             setSubmissionStatus({ loading: true, error: null });
 
@@ -544,11 +603,15 @@ useEffect(() => {
         { content: 'Second Secondary', onAction: () => console.log('Second secondary action'), tooltip: 'More info about second action' }
     ];
     return (
-        <Frame>
+        <Frame
+
+        >
+
             <Page
                 primaryAction={primaryAction}
                 secondaryActions={secondaryActions}
                 fullWidth >
+                <DisplayText size="large">{`Form: ${entityTitle}`}</DisplayText> {/* Moved DisplayText here */}
 
                 <Layout>
                     <Layout.Section>
@@ -565,6 +628,19 @@ useEffect(() => {
                                         return null;
                                     }
                                     const formattedLabel = formatLabel(field.label, field.validation);
+                                    if (field.type === 'checkbox') {
+                                        console.log(field.name);
+                                        console.log(formData[field.name]);
+                                        console.log(field.check_box_value);
+                                        return (
+                                            <Checkbox
+                                                key={field.name}
+                                                label={formattedLabel}
+                                                checked={formData[field.name] === field.check_box_value}
+                                                onChange={(value) => handleChange(field.name, value ? field.check_box_value : '')}
+                                            />
+                                        );
+                                    }
 
                                     if (field.type === 'editableTable') {
                                         const openType = field.open; // 'Collection' or 'Product'
@@ -605,19 +681,19 @@ useEffect(() => {
                                             return null; // Skip rendering this field
                                         }
                                         return (
-                                            <Card title={field.label} sectioned>
-                                            <EditableTable
-                                                key={field.name}
-                                                columns={field.columns}
-                                                tableData={formData[field.name] || []}
-                                                errors={errors[field.name] || []}
-                                                onDataChange={data => handleDataChange(field.name, data)}
-                                                tableName={field.name}
-                                                openType={openType}
-                                                onOpenResourcePicker={handleResourcePickerOpen}
-                                                allowMultiple={allowMultiple} // Pass allowMultiple directly
+                                            <Card  key={field.name} title={field.label} sectioned>
+                                                <EditableTable
+                                                    key={`${field.name}-editable-table`}
+                                                    columns={field.columns}
+                                                    tableData={formData[field.name] || []}
+                                                    errors={errors[field.name] || []}
+                                                    onDataChange={data => handleDataChange(field.name, data)}
+                                                    tableName={field.name}
+                                                    openType={openType}
+                                                    onOpenResourcePicker={handleResourcePickerOpen}
+                                                    allowMultiple={allowMultiple} // Pass allowMultiple directly
 
-                                            />
+                                                />
                                             </Card>
                                         );
                                     }
@@ -627,18 +703,18 @@ useEffect(() => {
                                                 {field.tooltip && <TextStyle variation="subdued">{field.tooltip}</TextStyle>}
 
                                                 <MRelatedTable
-                                                key={field.name}
-                                                tableName={field.name}
-                                                tableData={formData[field.name] || []}
-                                                displayColumns={field.displayColumns}
-                                                onOpenPicker={handleOpenPicker}
-                                                onDeleteItem={(rowIndex) => handleDeleteItemFromTable(field.name, rowIndex)}
-                                                reorderable={field.reorderable || false}
-                                                onReorder={(reorderedItems) => handleReorder(field.name, reorderedItems)}
-                                                // Pass the reorderable property
+                                                    key={`${field.name}-mrelated-table`}
+                                                    tableName={field.name}
+                                                    tableData={formData[field.name] || []}
+                                                    displayColumns={field.displayColumns}
+                                                    onOpenPicker={handleOpenPicker}
+                                                    onDeleteItem={(rowIndex) => handleDeleteItemFromTable(field.name, rowIndex)}
+                                                    reorderable={field.reorderable || false}
+                                                    onReorder={(reorderedItems) => handleReorder(field.name, reorderedItems)}
+                                                    // Pass the reorderable property
 
-                                            />
-                                            <Button onClick={() => handleOpenPicker(field)}>Browse {field.label}</Button>
+                                                />
+                                                <Button onClick={() => handleOpenPicker(field)}>Browse {field.label}</Button>
                                             </Card>
                                         );
                                     }
@@ -656,6 +732,26 @@ useEffect(() => {
                                             />
                                         );
                                     }
+                                    if (field.type === 'radio') {
+                                        return (
+                                            <React.Fragment key={field.name}>
+                                                <TextStyle>{formattedLabel}</TextStyle>
+                                                {field.options.map((option, index) => (
+                                                    <Tooltip key={`${field.name}-${index}`} content={option.tooltip}>
+                                                        <RadioButton
+                                                            key={`${field.name}-radio-${index}`}
+                                                            label={option.label}
+                                                            checked={formData[field.name] === option.value}
+                                                            onChange={() => handleChange(field.name, option.value)}
+                                                            name={field.name}
+                                                        />
+                                                    </Tooltip>
+                                                ))}
+                                            </React.Fragment>
+                                        );
+                                    }
+
+
 
                                     if (field.type === 'number') {
                                         return (
@@ -675,20 +771,46 @@ useEffect(() => {
                                         );
                                     }
 
-
+                                    if (field.type === 'googleCategorySelector') {
+                                        return (
+                                            <GoogleCategorySelectorWithSelectize
+                                                key={field.name}
+                                                label={formattedLabel}
+                                                value={formData[field.name] || ''}
+                                                onChange={(value) => handleChange(field.name, value)}
+                                            />
+                                        );
+                                    }
                                     return (
-                                        <TextField
-                                            key={field.name}
-                                            label={formattedLabel}
-                                            value={formData[field.name] || ''}
-                                            onChange={(value) => handleChange(field.name, value)}
-                                            error={errors[field.name]}
-                                            type={field.type}
-                                            placeholder={field.placeholder}
-                                            helpText={field.tooltip}
+                                        <React.Fragment  key={`${field.name}-fragment`}>
+                                            <TextField
+                                                key={`${field.name}-textbox`}
+                                                label={formattedLabel}
+                                                value={formData[field.name] || ''}
+                                                onChange={(value) => handleChange(field.name, value)}
+                                                error={errors[field.name]}
+                                                type={field.type}
+                                                placeholder={field.placeholder}
+                                                helpText={field.tooltip}
+                                                multiline={field.multiline ? Number(field.multiline) : false}
+                                            />
+                                            {field.name === 'abandoned_cart_template' && (
+                                                <ButtonGroup segmented>
+                                                    {abandoned_actions.map((action) => (
+                                                        <Tooltip key={action.code} content={`Copy ${action.label}`}>
+                                                            <CopyToClipboard text={action.code} onCopy={() => handleCopy(action.code)}>
+                                                                <Button>{action.label}</Button>
+                                                            </CopyToClipboard>
+                                                        </Tooltip>
+                                                    ))}
+                                                </ButtonGroup>
+                                            )}
+                                            {copiedText && <TextStyle variation="positive">Copied: {copiedText}</TextStyle>}
 
-                                        />
+                                        </React.Fragment>
+
                                     );
+
                                 })}
                                 {EntitySpecificComponent && <EntitySpecificComponent formSchema={formSchema} formData={formData} setFormData={setFormData} />}
 

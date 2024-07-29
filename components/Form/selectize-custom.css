@@ -1,0 +1,3 @@
+.selectize-dropdown {
+    z-index: 1000; /* Ensure the dropdown is on top */
+}

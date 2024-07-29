@@ -69,21 +69,10 @@ const FormRenderer = () => {
         return (
         <Frame>
             {toastMarkup}
-            <Page
 
-            >
-                <Layout>
-                    <Layout.Section>
-                        <div style={{ marginBottom: '1.6rem' }}>
-                            <Button onClick={() => navigate(listPageUrl)}>Back to {entityTitle} List View</Button>
-                        </div>
-                        <Card sectioned>
-                            <DisplayText size="large">{`Form: ${entityTitle}`}</DisplayText>
-                            <DynamicFormComponent formSchema={schema} onFormSubmit={handleFormSubmit} />
-                        </Card>
-                    </Layout.Section>
-                </Layout>
-            </Page>
+
+                   <DynamicFormComponent formSchema={schema} onFormSubmit={handleFormSubmit}  entityTitle={entityTitle} />
+
         </Frame>
     );
 };

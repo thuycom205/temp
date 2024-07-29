@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {IndexTable, Button, TextField, Card, TextStyle,Banner,TextContainer} from '@shopify/polaris';
+import {IndexTable, Button, TextField, Checkbox,Select,Card, TextStyle,Banner,TextContainer} from '@shopify/polaris';
 import { DeleteMinor } from '@shopify/polaris-icons';
 const EditableTable = ({ columns, tableData,errors, onDataChange, tableName, openType, onOpenResourcePicker,allowMultiple }) => {
     const resourcePickerLabel = openType === 'Collection' ? 'Browse Collections' : 'Browse Products';
@@ -92,22 +92,42 @@ const EditableTable = ({ columns, tableData,errors, onDataChange, tableName, ope
 
                 return (
 
-                <IndexTable.Cell key={`${rowIndex}-${columnIndex}`}>
-                    {column.type === 'thumbnail' ? (
-                        // Render an image if the column type is 'thumbnail'
-                        <img src={row[column.name]} alt="" style={{ width: '50px', height: 'auto' }} />
-                    ) : (
-                        // Default text field for other types
-                        <TextField
-                            label={formatLabel(column.label, column.validation)}
-                            value={row[column.name]}
-                            onChange={(value) => handleFieldChange(rowIndex, column.name, value, column.validation)}
-                            error={error}
-                            type={column.type === 'number' ? 'number' : 'text'}
-                        />
-                    )}
-                </IndexTable.Cell>
-            )
+                    <IndexTable.Cell key={`${rowIndex}-${columnIndex}`}>
+                        {column.type === 'thumbnail' ? (
+                            <img src={row[column.name]} alt="" style={{ width: '50px', height: 'auto' }} />
+                        ) : column.type === 'checkbox' ? (
+                            <Checkbox
+                                label={formatLabel(column.label, column.validation)}
+                                checked={row[column.name]}
+                                onChange={(value) => handleFieldChange(rowIndex, column.name, value, column.validation)}
+                                error={error}
+                            />
+                        ) : column.type === 'select' ? (
+                            <Select
+                                label={formatLabel(column.label, column.validation)}
+                                options={column.options || []}
+                                onChange={(value) => handleFieldChange(rowIndex, column.name, value, column.validation)}
+                                value={row[column.name]}
+                                error={error}
+                            />
+                        ) : column.type === 'time' ? (
+                            <TextField
+                                label={formatLabel(column.label, column.validation)}
+                                value={row[column.name]}
+                                onChange={(value) => handleFieldChange(rowIndex, column.name, value, column.validation)}
+                                error={error}
+                                type="time"
+                            />
+                        ) : (
+                            <TextField
+                                label={formatLabel(column.label, column.validation)}
+                                value={row[column.name]}
+                                onChange={(value) => handleFieldChange(rowIndex, column.name, value, column.validation)}
+                                error={error}
+                                type={column.type === 'number' ? 'number' : 'text'}
+                            />
+                        )}
+                    </IndexTable.Cell>            )
                 }
             )}
             <IndexTable.Cell>
